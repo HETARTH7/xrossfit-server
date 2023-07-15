@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HETARTH7/Exercise-Tracker-App-Back-End.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HETARTH7/Exercise-Tracker-App-Back-End/issues"
+  },
+  "homepage": "https://github.com/HETARTH7/Exercise-Tracker-App-Back-End#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "expres": "^0.0.5",
+    "mongoose": "^6.6.0"
+  }
+}
