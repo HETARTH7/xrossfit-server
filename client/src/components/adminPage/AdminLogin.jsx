@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../Footer";
-import Back from "../Back";
+import Footer from "../homePage/Footer";
+import Back from "../homePage/Back";
 import axios from "axios";
 
 const AdminLogin = () => {
