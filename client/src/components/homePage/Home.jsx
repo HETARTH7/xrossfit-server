@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import HomeNav from "./HomeNav";
 
 const Home = () => {
   return (
     <div>
-      <HomeNav />
       <div id="home" className="container text-center">
         <h1 className="display-1 mt-5 pt-5 mb-5 pb-5">XrossFit</h1>
         <p className="fs-3">
@@ -20,8 +18,8 @@ const Home = () => {
             </Link>
           </button>
           <button className="btn btn-outline-dark m-2">
-            <Link className="nav-item nav-link" to={"/adminlogin"}>
-              Admins
+            <Link className="nav-item nav-link" to={"/login"}>
+              Login
             </Link>
           </button>
         </div>

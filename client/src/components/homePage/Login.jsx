@@ -1,71 +1,72 @@
-import React, { useEffect, useState } from "react";
-import Back from "./Back";
-import axios from "axios";
+import React, { useState } from "react";
+import axios from "../../api/axios";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { setAuth } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [auth, setAuth] = useState("");
-  const [mssg, setMssg] = useState("");
-  const handleUser = (e) => {
+  const [errMssg, setErrMssg] = useState("");
+  const navigate = useNavigate();
+
+  const changeUsername = (e) => {
     setUsername(e.target.value);
   };
-  const handlePassword = (e) => {
+
+  const changePassword = (e) => {
     setPassword(e.target.value);
   };
 
-  const login = (e) => {
+  const Login = async (e) => {
     e.preventDefault();
-    const user = { username, password };
-    axios
-      .post("http://localhost:5000/auth", user)
-      .then((res) => setAuth(res.data.message))
-      .catch((err) => console.log(err));
-  };
-  useEffect(() => {
-    if (auth === "OK") {
-      sessionStorage.setItem("user", username);
-      window.location = "/dashboard";
-    } else if (auth === "Wrong") {
-      setMssg("Invalid credentials. Please try again");
+    try {
+      const response = await axios.post("/login", { username, password });
+      const accessToken = response.data.accessToken;
+      const role = response.data.role;
+      setAuth({ username, accessToken });
+      role === "user" ? navigate("/dashboard") : navigate("/admin");
+      localStorage["user"] = username;
+      localStorage["isLoggedIn"] = true;
+    } catch (err) {
+      setErrMssg("Login Failed");
     }
-  }, [username, auth]);
+  };
+
   return (
-    <div>
-      <Back />
-      <div className="login-page mt-5">
-        <form
-          className="form-signin w-100 m-auto border border-3 rounded-4"
-          onSubmit={login}
-        >
-          <h1 className="h3 mb-3 fw-normal">Login</h1>
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Enter your Username"
-            onChange={handleUser}
-          />
-          <input
-            className="form-control mt-3"
-            type="password"
-            placeholder="Enter your password"
-            onChange={handlePassword}
-          />
-          <p className="mt-5 mb-5">
-            Don't have an accound?{" "}
-            <a className="text-decoration-none" href="/register">
-              Register now!
-            </a>
+    <div className="container">
+      <div className="text-center mt-5 p-5 m-5 border rounded">
+        <form onSubmit={Login} className="text-center">
+          <h1>Login</h1>
+          <div className="mb-3 row">
+            <label className="col-sm-2 col-form-label">Username</label>
+            <div className="col-sm-10">
+              <input onChange={changeUsername} className="form-control" />
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <label className="col-sm-2 col-form-label">Password</label>
+            <div className="col-sm-10">
+              <input
+                onChange={changePassword}
+                type="password"
+                className="form-control"
+              />
+            </div>
+          </div>
+          <p className="">
+            Dont't have an accound? <a href="/register">Register</a>
           </p>
-          <p className="text-danger">{mssg}</p>
           <button
-            className="w-100 btn btn-lg btn-primary"
+            type="submit"
+            className="btn btn-primary"
             style={{ marginTop: "5rem" }}
           >
             Login
           </button>
         </form>
       </div>
+      <p className="text-danger">{errMssg}</p>
     </div>
   );
 };

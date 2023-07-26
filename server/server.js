@@ -1,31 +1,30 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const userRouter = require("./routes/userRouter");
-const exerciseRouter = require("./routes/exerciseRouter");
-const stockRouter = require("./routes/stockRouter");
-const authentication = require("./routes/authentication");
-const adminAuth = require("./routes/adminAuth");
-const bodyPartRouter = require("./routes/bodyPartRouter");
-const bodyExerciseRouter = require("./routes/bodyExerciseRouter");
-const cartRouter = require("./routes/cartRouter");
-const orderRouter = require("./routes/orderRouter");
+const cookieParser = require("cookie-parser");
+const connectDB = require("./config/dbConfig");
+const credentials = require("./middleware/credentials");
+const corsOptions = require("./config/corsOptions");
 
 const app = express();
-app.use(cors());
+app.use(credentials);
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
-mongoose.connect("mongodb://0.0.0.0/Xrossfit");
-app.use("/user", userRouter);
-app.use("/exercise", exerciseRouter);
-app.use("/stock", stockRouter);
-app.use("/auth", authentication);
-app.use("/admin", adminAuth);
-app.use("/bodypart", bodyPartRouter);
-app.use("/bodyexercise", bodyExerciseRouter);
-app.use("/cart", cartRouter);
-app.use("/order", orderRouter);
+connectDB();
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.use("/login", require("./routes/auth"));
+app.use("/register", require("./routes/register"));
+app.use("/refresh", require("./routes/refresh"));
+app.use("/logout", require("./routes/logout"));
+app.use("/product", require("./routes/product"));
+app.use("/log", require("./routes/log"));
+app.use("/cart", require("./controllers/cartRouter"));
+app.use("/muscle/", require("./controllers/muscleRouter"));
+app.use("/exercise", require("./routes/exercise"));
+
+const port = 5000;
+
+app.listen(port, () => {
+  console.log(`listenting at port ${port}`);
 });
