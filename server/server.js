@@ -17,11 +17,11 @@ app.use("/login", require("./routes/auth"));
 app.use("/register", require("./routes/register"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
-app.use("/product", require("./routes/product"));
-app.use("/log", require("./routes/log"));
-app.use("/cart", require("./controllers/cartRouter"));
-app.use("/muscle/", require("./controllers/muscleRouter"));
-app.use("/exercise", require("./routes/exercise"));
+// app.use("/product", require("./routes/product"));
+// app.use("/log", require("./routes/log"));
+// app.use("/cart", require("./routes/cart"));
+// app.use("/muscle/", require("./routes/muscle"));
+// app.use("/exercise", require("./routes/exercise"));
 
 const port = 5000;
 

@@ -1,4 +1,4 @@
-const Cart = require("../models/cart");
+const Cart = require("../model/cart");
 const Product = require("../model/Product");
 
 const getCart = (req, res) => {
