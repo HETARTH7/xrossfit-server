@@ -6,8 +6,8 @@ const {
 
 const router = require("express").Router();
 
-router.get("/:user", getExercises);
+router.get("/:username", getExercises);
 router.post("/", addExercise);
-router.delete("/", deleteExercise);
+router.delete("/:id", deleteExercise);
 
 module.exports = router;

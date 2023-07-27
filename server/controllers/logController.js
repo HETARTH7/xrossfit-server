@@ -1,29 +1,40 @@
 const Log = require("../model/Log");
 
-const getExercises = (req, res) => {
-  const username = req.params.name;
-  Log.find({ username: username })
-    .then((data) => res.json(data))
-    .catch((err) => console.log(err));
+const getExercises = async (req, res) => {
+  try {
+    const username = req.params.username;
+    const log = await Log.find({ username: username });
+    res.status(200).json(log);
+  } catch (err) {
+    res.status(500).json({ message: "An error while fetching the logs." });
+  }
 };
 
 const addExercise = (req, res) => {
-  const username = req.body.username;
-  const exerciseName = req.body.exerciseName;
-  const duration = req.body.duration;
-  const date = req.body.date;
-  const exercise = new Log({ username, exerciseName, duration, date });
-  exercise
-    .save()
-    .then(() => res.json("EXERCISE ADDED"))
-    .catch((err) => res.status(400).json(`ERROR ${err}`));
+  try {
+    const { username, exercise, duration, date } = req.body;
+    const newRecord = new Log({ username, exercise, duration, date });
+    newRecord.save();
+    res.status(200).json({ message: "Log updated" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "An error occured while updating the log" });
+  }
 };
 
-const deleteExercise = (req, res) => {
-  const deleteExercise = req.params.id;
-  Log.findByIdAndRemove(deleteExercise)
-    .then(() => res.json("EXERCISE DELETED"))
-    .catch((err) => res.status(400).json("Error: " + err));
+const deleteExercise = async (req, res) => {
+  try {
+    const deleteExercise = req.params.id;
+    await Log.findByIdAndRemove(deleteExercise);
+    res
+      .status(200)
+      .json({ message: "The record has been deleted successfully!" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "An error occured while deleting the log" });
+  }
 };
 
 module.exports = { getExercises, addExercise, deleteExercise };

@@ -4,7 +4,7 @@ const logSchema = {
   username: String,
   exerciseName: String,
   duration: String,
-  date: Date,
+  date: String,
 };
 const Log = new mongoose.model("Log", logSchema);
 module.exports = Log;
