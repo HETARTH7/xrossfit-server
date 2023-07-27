@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const logSchema = {
   username: String,
-  exerciseName: String,
+  exercise: String,
   duration: String,
   date: String,
 };
