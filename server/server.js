@@ -20,8 +20,6 @@ app.use("/logout", require("./routes/logout"));
 app.use("/log", require("./routes/log"));
 // app.use("/product", require("./routes/product"));
 // app.use("/cart", require("./routes/cart"));
-// app.use("/muscle/", require("./routes/muscle"));
-// app.use("/exercise", require("./routes/exercise"));
 
 const port = 5000;
 

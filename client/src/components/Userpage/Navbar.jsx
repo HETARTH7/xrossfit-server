@@ -25,12 +25,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-dark" href="#">
+            <Link className="nav-link text-dark" to="/list">
               Exercise Recommendation
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-dark" href="#">
+            <Link className="nav-link text-dark" to="/store">
               Shop
             </Link>
           </li>
