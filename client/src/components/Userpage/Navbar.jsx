@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar bg-body-tertiary">
+    <nav className="navbar">
       <div className="container-fluid">
         <ul className="nav">
           <li className="nav-item">

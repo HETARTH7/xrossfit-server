@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const Home = () => {
   return (
     <div>
+      <Navbar />
       <div id="home" className="container text-center">
         <h1 className="display-1 mt-5 pt-5 mb-5 pb-5">XrossFit</h1>
         <p className="fs-3">
