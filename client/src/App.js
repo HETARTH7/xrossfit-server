@@ -8,6 +8,8 @@ import User from "./components/Userpage/User";
 import Admin from "./components/Adminpage/Admin";
 import Tracker from "./components/Userpage/Tracker";
 import Exercise from "./components/Userpage/Exercise";
+import Shop from "./components/Userpage/Shop";
+import Users from "./components/Adminpage/Users";
 
 const App = () => {
   const date = new Date();
@@ -16,16 +18,33 @@ const App = () => {
     <div className="container">
       <BrowserRouter>
         <Routes>
+          {/* Home Page */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* User Page */}
           <Route path="/user" element={<User />} />
-          <Route path="/admin" element={<Admin />} />
           <Route path="/track" element={<Tracker />} />
           <Route path="/list" element={<Exercise />} />
+          <Route path="/store" element={<Shop />} />
+
+          {/* Admin Page */}
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
       </BrowserRouter>
-      <p className="text-center">&copy; {year} Hetarth</p>
+      <footer
+        style={{
+          position: "fixed",
+          left: 0,
+          bottom: 0,
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        &copy; {year} Hetarth
+      </footer>
     </div>
   );
 };

@@ -15,23 +15,27 @@ const Navbar = () => {
       <div className="container-fluid">
         <ul className="nav">
           <li className="nav-item">
-            <Link className="nav-link text-dark" aria-current="page" to="/user">
-              HOME
+            <Link
+              className="nav-link text-dark"
+              aria-current="page"
+              to="/admin"
+            >
+              DASHBOARD
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-dark" to="/track">
-              Track Exercise
+            <Link className="nav-link text-dark" to="/users">
+              Users
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-dark" to="/list">
-              Exercise Recommendation
+            <Link className="nav-link text-dark" to="/products">
+              Products
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-dark" to="/store">
-              Shop
+            <Link className="nav-link text-dark" to="/orders">
+              Orders
             </Link>
           </li>
         </ul>

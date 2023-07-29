@@ -13,6 +13,7 @@ app.use(cookieParser());
 
 connectDB();
 
+app.use("/users", require("./routes/users"));
 app.use("/login", require("./routes/auth"));
 app.use("/register", require("./routes/register"));
 app.use("/refresh", require("./routes/refresh"));
