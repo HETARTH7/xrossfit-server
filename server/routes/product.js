@@ -7,8 +7,8 @@ const {
 const router = require("express").Router();
 
 router.get("/", getProduct);
-router.post("/add", addProduct);
-router.post("/delete/:id", deleteProduct);
-router.post("/update", updateProduct);
+router.post("/", addProduct);
+router.delete("/:id", deleteProduct);
+router.put("/", updateProduct);
 
 module.exports = router;

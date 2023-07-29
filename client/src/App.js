@@ -10,6 +10,8 @@ import Tracker from "./components/Userpage/Tracker";
 import Exercise from "./components/Userpage/Exercise";
 import Shop from "./components/Userpage/Shop";
 import Users from "./components/Adminpage/Users";
+import Products from "./components/Adminpage/Products";
+import Orders from "./components/Adminpage/Orders";
 
 const App = () => {
   const date = new Date();
@@ -32,6 +34,8 @@ const App = () => {
           {/* Admin Page */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </BrowserRouter>
       <footer

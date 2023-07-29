@@ -20,7 +20,7 @@ const Navbar = () => {
               aria-current="page"
               to="/admin"
             >
-              DASHBOARD
+              Dashboard
             </Link>
           </li>
           <li className="nav-item">
