@@ -8,6 +8,7 @@ const Product = () => {
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [product, setProduct] = useState([]);
+  const [img, setImg] = useState("");
   const [up, setUp] = useState(-1);
   const [upP, setUpP] = useState("");
   const [upQ, setUpQ] = useState("");
@@ -25,8 +26,11 @@ const Product = () => {
   const changeQuantity = (e) => {
     setQuantity(e.target.value);
   };
+  const changeImg = (e) => {
+    setImg(e.target.value);
+  };
   const addProduct = () => {
-    const newProduct = { name, desc, price, quantity };
+    const newProduct = { name, desc, price, quantity, img };
     axios
       .post("/product", newProduct)
       .then((res) => console.log(res.data))
@@ -70,6 +74,11 @@ const Product = () => {
             onChange={changeQuantity}
             placeholder="Enter Quantity"
           ></input>
+          <input
+            className="form-control m-4"
+            onChange={changeImg}
+            placeholder="Enter Image URL"
+          ></input>
           <div>
             <input
               className="form-control btn btn-success m-4"
@@ -95,11 +104,11 @@ const Product = () => {
                   <tr key={index}>
                     <td>{x.name}</td>
                     <td>{x.description}</td>
-                    <td>{x.price}</td>
+                    <td>₹{x.price}</td>
                     <td>{x.quantity}</td>
                     <td>
                       <button
-                        className="btn btn-outline-warning me-3"
+                        className="btn btn-outline-warning mb-2"
                         onClick={() => {
                           setUp(index);
                           setUpId(x._id);
@@ -124,13 +133,22 @@ const Product = () => {
                     <td>{x.name}</td>
                     <td>{x.description}</td>
                     <td>
-                      <input onChange={updatePrice} required></input>
+                      <input
+                        className="form-control"
+                        onChange={updatePrice}
+                        required
+                      ></input>
                     </td>
                     <td>
-                      <input onChange={updateQuantity} required></input>
+                      <input
+                        className="form-control"
+                        onChange={updateQuantity}
+                        required
+                      ></input>
                     </td>
                     <td>
                       <button
+                        className="btn btn-success mb-2"
                         onClick={() => {
                           const updateProduct = { upId, upP, upQ };
                           axios
@@ -143,6 +161,7 @@ const Product = () => {
                         UPDATE
                       </button>
                       <button
+                        className="btn btn-primary"
                         onClick={() => {
                           setUp(-1);
                         }}

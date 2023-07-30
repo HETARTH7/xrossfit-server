@@ -15,7 +15,8 @@ const addProduct = (req, res) => {
   const description = req.body.desc;
   const price = req.body.price;
   const quantity = req.body.quantity;
-  const product = new Product({ name, description, price, quantity });
+  const img = req.body.img;
+  const product = new Product({ name, description, price, quantity, img });
   product.save();
 };
 
