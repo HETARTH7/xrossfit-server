@@ -1,71 +1,60 @@
 const Cart = require("../model/cart");
 const Product = require("../model/Product");
 
-const getCart = (req, res) => {
-  const user = req.params.user;
-  Cart.find({ user: user })
-    .then((data) => res.json(data))
-    .catch((err) => res.status(400).json(err));
-};
-
-const addItem = (req, res) => {
-  const user = req.body.user;
-  const name = req.body.item;
-  const price = req.body.price;
-  const quantity = 1;
-  const newItem = new Cart({ user, name, quantity, price });
-  Cart.find({ user: user, name: name }, (err, data) => {
-    if (err) console.log(err);
-    if (data.length == 0) {
-      newItem
-        .save()
-        .then(() => res.json("Item Added"))
-        .catch((err) => res.status(400).json(err));
-    } else {
-      Cart.updateOne(
-        { user: user, name: name },
-        { $inc: { quantity: quantity, price: price } }
-      )
-        .then(() => res.json("Cart Updated"))
-        .catch((err) => res.status(400).json(err));
-    }
-  });
-};
-
-const updateCart = (req, res) => {
-  const user = req.body.user;
-  const name = req.body.name;
-  const n = req.body.n;
-  if (n == -1) {
-    Cart.find({ user: user, name: name }, "quantity", (err, data) => {
-      if (err) console.log(err);
-      if (data[0].quantity == 1) {
-        Cart.deleteOne({ user: user, name: name })
-          .then(() => res.json("Deleted"))
-          .catch((err) => res.status(400).json(err));
-      } else {
-        Product.find({ name: name }, "price", (err, data) => {
-          const itemPrice = data[0].price;
-          Cart.updateOne(
-            { user: user, name: name },
-            { $inc: { quantity: n, price: -itemPrice } }
-          )
-            .then(() => res.json("Cart Updated"))
-            .catch((err) => res.status(400).json(err));
-        });
-      }
-    });
-  } else {
-    Product.find({ name: name }, "price", (err, data) => {
-      const itemPrice = data[0].price;
-      Cart.updateOne(
-        { user: user, name: name },
-        { $inc: { quantity: n, price: itemPrice } }
-      )
-        .then(() => res.json("Cart Updated"))
-        .catch((err) => res.status(400).json(err));
-    });
+const getCart = async (req, res) => {
+  try {
+    const { user } = req.params;
+    const cart = await Cart.find({ user: user });
+    res.status(200).json(cart);
+  } catch (err) {
+    res.status(500).json({ message: "Cannot get the cart" });
   }
 };
 
-module.exports = { getCart, addItem, updateCart };
+const addItem = async (req, res) => {
+  try {
+    const { user, name, price } = req.body;
+    const quantity = 1;
+    const newItem = new Cart({ user, name, quantity, price });
+    const data = await Cart.find({ user: user, name: name });
+    if (data.length == 0) {
+      await newItem.save();
+    } else {
+      await Cart.updateOne(
+        { user: user, name: name },
+        { $inc: { quantity: quantity } }
+      );
+    }
+    res.status(200).json({ message: "Cart updated" });
+  } catch (err) {
+    res.status(500).json({ message: "Cannot add item to the cart" });
+  }
+};
+
+const deleteFromCart = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Cart.findByIdAndRemove(id);
+    res.status(200).json({ message: "Cart updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Cannot update the cart" });
+  }
+};
+
+const updateCart = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    await Cart.updateOne(
+      {
+        _id: id,
+      },
+      { quantity: quantity }
+    );
+    res.status(200).json({ message: "Cart updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Cannot update the cart" });
+  }
+};
+
+module.exports = { getCart, addItem, updateCart, deleteFromCart };

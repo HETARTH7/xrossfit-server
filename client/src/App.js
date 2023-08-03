@@ -8,10 +8,11 @@ import User from "./components/Userpage/User";
 import Admin from "./components/Adminpage/Admin";
 import Tracker from "./components/Userpage/Tracker";
 import Exercise from "./components/Userpage/Exercise";
-import Shop from "./components/Userpage/Shop";
+import Store from "./components/Userpage/Store";
 import Users from "./components/Adminpage/Users";
 import Products from "./components/Adminpage/Products";
 import Orders from "./components/Adminpage/Orders";
+import Cart from "./components/Userpage/Cart";
 
 const App = () => {
   const date = new Date();
@@ -29,7 +30,8 @@ const App = () => {
           <Route path="/user" element={<User />} />
           <Route path="/track" element={<Tracker />} />
           <Route path="/list" element={<Exercise />} />
-          <Route path="/store" element={<Shop />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/cart" element={<Cart />} />
 
           {/* Admin Page */}
           <Route path="/admin" element={<Admin />} />

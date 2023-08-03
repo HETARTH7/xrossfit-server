@@ -23,14 +23,13 @@ const removeFromWishList = async (req, res) => {
 
 const viewWishList = async (req, res) => {
   try {
-    const { userID } = req.body;
-    // const response = await WishList.find({ userID });
-    // var wishlist = [];
-    // response.forEach((e) => {
-    //   wishlist.push(e.productID);
-    // });
-    // res.status(200).json(wishlist);
-    console.log(req.body);
+    const { userID } = req.params;
+    const response = await WishList.find({ userID });
+    var wishlist = [];
+    response.forEach((e) => {
+      wishlist.push(e.productID);
+    });
+    res.status(200).json(wishlist);
   } catch (err) {
     res
       .status(500)

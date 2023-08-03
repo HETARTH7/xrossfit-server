@@ -29,7 +29,7 @@ const Login = () => {
       localStorage["user"] = username;
       localStorage["isLoggedIn"] = true;
     } catch (err) {
-      setErrMssg("Login Failed");
+      setErrMssg("Something went wrong");
     }
   };
 
@@ -66,7 +66,7 @@ const Login = () => {
           </button>
         </form>
       </div>
-      <p className="text-danger">{errMssg}</p>
+      <p className="text-danger text-center">{errMssg}</p>
     </div>
   );
 };

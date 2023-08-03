@@ -21,7 +21,7 @@ app.use("/logout", require("./routes/logout"));
 app.use("/log", require("./routes/log"));
 app.use("/product", require("./routes/product"));
 app.use("/wishlist", require("./routes/wishlist"));
-// app.use("/cart", require("./routes/cart"));
+app.use("/cart", require("./routes/cart"));
 
 const port = 5000;
 

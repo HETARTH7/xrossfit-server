@@ -35,13 +35,24 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <button
-          onClick={signout}
-          className="btn btn-danger d-flex"
-          type="submit"
-        >
-          Logout
-        </button>
+        <div className="d-flex">
+          <img
+            src="/profile.svg"
+            alt=""
+            style={{ width: "1.5rem", marginLeft: "1rem" }}
+          />
+          <img
+            src="/settings.svg"
+            alt=""
+            style={{ width: "1.5rem", marginLeft: "1rem" }}
+          />
+          <img
+            onClick={signout}
+            src="/logout.svg"
+            alt=""
+            style={{ width: "1.5rem", marginLeft: "1rem" }}
+          />
+        </div>
       </div>
     </nav>
   );

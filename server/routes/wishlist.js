@@ -6,7 +6,7 @@ const {
 
 const router = require("express").Router();
 
-router.get("/", viewWishList);
+router.get("/:userID", viewWishList);
 router.post("/", addToWishList);
 router.delete("/", removeFromWishList);
 
