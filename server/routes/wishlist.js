@@ -8,6 +8,6 @@ const router = require("express").Router();
 
 router.get("/:userID", viewWishList);
 router.post("/", addToWishList);
-router.delete("/", removeFromWishList);
+router.delete("/:id", removeFromWishList);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 const Store = () => {
   const { auth } = useAuth();
+  const user = auth.username;
   const [products, setProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
@@ -15,9 +16,9 @@ const Store = () => {
       .catch((err) => console.log(err));
     axios
       .get(`/wishlist/${auth.username}`)
-      .then((res) => setWishlist(res))
+      .then((res) => setWishlist(res.data))
       .catch((err) => console.log(err));
-  }, [auth.username]);
+  });
   return (
     <div className="row">
       <Navbar />
@@ -27,14 +28,17 @@ const Store = () => {
           <img
             src="/cart.svg"
             alt=""
-            style={{ width: "2rem", marginTop: "4rem" }}
+            style={{ width: "2rem", marginTop: "4rem", marginRight: "3rem" }}
           />
         </Link>
       </div>
-
       {products.map((product, index) => {
-        const isWishlisted = 0;
-
+        const isWishlisted = wishlist.some(
+          (item) => item.productID === product._id
+        );
+        const wishlistItemId = wishlist.find(
+          (item) => item.productID === product._id
+        )?._id;
         return (
           <div
             key={index}
@@ -52,6 +56,16 @@ const Store = () => {
                   src={isWishlisted ? "/wishlisted.svg" : "/wishlist.svg"}
                   alt=""
                   style={{ width: "2rem", marginRight: "2rem" }}
+                  onClick={() => {
+                    if (isWishlisted) {
+                      axios.delete(`/wishlist/${wishlistItemId}`);
+                    } else {
+                      axios.post("/wishlist", {
+                        userID: user,
+                        productID: product._id,
+                      });
+                    }
+                  }}
                 />
                 <button
                   className="btn btn-primary"
