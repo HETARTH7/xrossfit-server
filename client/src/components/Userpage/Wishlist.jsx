@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
 
 const Store = () => {
   const { auth } = useAuth();

@@ -22,6 +22,7 @@ app.use("/log", require("./routes/log"));
 app.use("/product", require("./routes/product"));
 app.use("/wishlist", require("./routes/wishlist"));
 app.use("/cart", require("./routes/cart"));
+app.use("/order", require("./routes/order"));
 
 const port = 5000;
 

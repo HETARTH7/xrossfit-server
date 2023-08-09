@@ -20,22 +20,24 @@ const getUserorder = (req, res) => {
     .catch((err) => res.status(400).json(err));
 };
 
-const order = (req, res) => {
-  const user = req.body.user;
-  Cart.find({ user: user }, (err, data) => {
+const order = async (req, res) => {
+  try {
+    const { user } = req.params;
+    const orders = await Cart.find({ user: user });
     var name, quantity, price, status;
-    data.forEach((element) => {
+    orders.forEach(async (element) => {
       name = element.name;
       quantity = element.quantity;
       price = element.price;
       status = "Pending";
       var orderItem = new Order({ user, name, quantity, price, status });
-      orderItem.save();
-      Cart.deleteOne({ user: user, name: name })
-        .then()
-        .catch((err) => res.status(400).json(err));
+      await orderItem.save();
+      await Cart.findByIdAndRemove(element._id);
     });
-  });
+    res.status(200).json({ message: "Order placed" });
+  } catch (err) {
+    res.status(500).json({ message: "Cannot place order" });
+  }
 };
 
 const deliverOrder = (req, res) => {
