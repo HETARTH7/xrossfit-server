@@ -13,6 +13,7 @@ import Users from "./components/Adminpage/Users";
 import Products from "./components/Adminpage/Products";
 import Orders from "./components/Adminpage/Orders";
 import Cart from "./components/Userpage/Cart";
+import Wishlist from "./components/Userpage/Wishlist";
 
 const App = () => {
   const date = new Date();
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/list" element={<Exercise />} />
           <Route path="/store" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
 
           {/* Admin Page */}
           <Route path="/admin" element={<Admin />} />

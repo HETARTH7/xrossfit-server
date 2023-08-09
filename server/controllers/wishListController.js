@@ -2,8 +2,8 @@ const WishList = require("../model/Wishlist");
 
 const addToWishList = async (req, res) => {
   try {
-    const { userID, productID } = req.body;
-    const newItem = new WishList({ userID, productID });
+    const { userID, productID, name, price, img } = req.body;
+    const newItem = new WishList({ userID, productID, name, price, img });
     await newItem.save();
     res.status(200).json({ message: "Added to wishlist" });
   } catch (err) {
