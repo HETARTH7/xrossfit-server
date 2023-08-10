@@ -2,16 +2,22 @@ const Cart = require("../model/cart");
 const Order = require("../model/order");
 const Product = require("../model/Product");
 
-const getOrder = (req, res) => {
-  Order.find()
-    .then((data) => res.json(data))
-    .catch((err) => res.status(400).json(err));
+const getOrder = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({ message: "Cannot get the orders" });
+  }
 };
 
-const getPendingorders = (req, res) => {
-  Order.find({ status: "Pending" })
-    .then((data) => res.json(data))
-    .catch((err) => res.status(400).json(err));
+const getPendingorders = async (req, res) => {
+  try {
+    const orders = await Order.find({ status: "Pending" });
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({ message: "Cannot get the orders" });
+  }
 };
 
 const getUserorder = (req, res) => {
@@ -45,11 +51,14 @@ const order = async (req, res) => {
   }
 };
 
-const deliverOrder = (req, res) => {
-  const id = req.params.id;
-  Order.updateOne({ _id: id }, { $set: { status: "Delivered" } })
-    .then(() => res.json("UPDATED"))
-    .catch((err) => res.status(400).json("Error: " + err));
+const deliverOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Order.updateOne({ _id: id }, { $set: { status: "Delivered" } });
+    res.status(200).json({ message: "Status updated" });
+  } catch (err) {
+    res.status(500).json({ message: "Cannot udate the status" });
+  }
 };
 
 module.exports = {
