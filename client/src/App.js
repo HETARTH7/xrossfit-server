@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Homepage/Home";
 import Login from "./components/Homepage/Login";
@@ -15,6 +16,7 @@ import Orders from "./components/Adminpage/Orders";
 import Cart from "./components/Userpage/Cart";
 import Wishlist from "./components/Userpage/Wishlist";
 import Checkout from "./components/Userpage/Checkout";
+import Profile from "./components/Userpage/Profile";
 
 const App = () => {
   const date = new Date();
@@ -36,6 +38,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/:user" element={<Profile />} />
 
           {/* Admin Page */}
           <Route path="/admin" element={<Admin />} />
