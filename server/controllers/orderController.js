@@ -1,5 +1,6 @@
 const Cart = require("../model/cart");
 const Order = require("../model/order");
+const Product = require("../model/Product");
 
 const getOrder = (req, res) => {
   Order.find()
@@ -33,6 +34,10 @@ const order = async (req, res) => {
       var orderItem = new Order({ user, name, quantity, price, status });
       await orderItem.save();
       await Cart.findByIdAndRemove(element._id);
+      await Product.updateOne(
+        { name: element.name },
+        { $inc: { quantity: -element.quantity } }
+      );
     });
     res.status(200).json({ message: "Order placed" });
   } catch (err) {

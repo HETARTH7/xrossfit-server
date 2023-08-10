@@ -79,21 +79,25 @@ const Store = () => {
                       }
                     }}
                   />
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const user = auth.username;
-                      const name = product.name;
-                      const price = product.price;
-                      axios.post("/cart", {
-                        user,
-                        name,
-                        price,
-                      });
-                    }}
-                  >
-                    Add to Cart
-                  </button>
+                  {product.quantity === 0 ? (
+                    <>Not available</>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        const user = auth.username;
+                        const name = product.name;
+                        const price = product.price;
+                        axios.post("/cart", {
+                          user,
+                          name,
+                          price,
+                        });
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

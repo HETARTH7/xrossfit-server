@@ -11,10 +11,10 @@ const Admin = () => {
       .get("/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  });
 
   const deleteUser = (e) => {
-    console.log(e.target.value);
+    axios.delete(`/users/${e.target.value}`);
   };
   return (
     <div>

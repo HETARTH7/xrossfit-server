@@ -16,7 +16,7 @@ const Cart = () => {
       .catch((err) => console.log(err));
   });
   return (
-    <div className="row">
+    <div>
       <Navbar />
       <div className="d-flex">
         <h1 className="m-5">{auth.username}'s Cart</h1>
@@ -27,7 +27,7 @@ const Cart = () => {
           <h1>Your cart is empty</h1>
         </div>
       ) : (
-        <div>
+        <div className="row">
           {cart.map((product, index) => {
             total += product.price * product.quantity;
             return (
