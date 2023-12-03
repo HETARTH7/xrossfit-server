@@ -1,23 +1,12 @@
-import axios from "../api/axios";
-import useAuth from "./useAuth";
+import { useAuthContext } from "./useAuthContext";
 
-const useLogout = () => {
-  const { setAuth } = useAuth();
+export const useLogout = () => {
+  const { dispatch } = useAuthContext();
 
-  const logout = async () => {
-    setAuth({});
+  const logout = () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("isLoggedIn");
-    try {
-      const response = await axios("/logout", {
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    dispatch({ type: "LOGOUT" });
   };
 
-  return logout;
+  return { logout };
 };
-
-export default useLogout;

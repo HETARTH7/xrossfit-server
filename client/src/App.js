@@ -1,65 +1,25 @@
-import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./components/Login.jsx";
+import Signup from "./components/Signup.jsx";
+import Root from "./components/Root.jsx";
+import Home from "./components/Home.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/Homepage/Home";
-import Login from "./components/Homepage/Login";
-import Register from "./components/Homepage/Register";
-import User from "./components/Userpage/User";
-import Admin from "./components/Adminpage/Admin";
-import Tracker from "./components/Userpage/Tracker";
-import Exercise from "./components/Userpage/Exercise";
-import Store from "./components/Userpage/Store";
-import Users from "./components/Adminpage/Users";
-import Products from "./components/Adminpage/Products";
-import Orders from "./components/Adminpage/Orders";
-import Cart from "./components/Userpage/Cart";
-import Wishlist from "./components/Userpage/Wishlist";
-import Checkout from "./components/Userpage/Checkout";
-import Profile from "./components/Userpage/Profile";
 
-const App = () => {
-  const date = new Date();
-  const year = date.getFullYear();
+function App() {
   return (
-    <div className="container">
+    <div className="App">
       <BrowserRouter>
-        <Routes>
-          {/* Home Page */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
-          {/* User Page */}
-          <Route path="/user" element={<User />} />
-          <Route path="/track" element={<Tracker />} />
-          <Route path="/list" element={<Exercise />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/:user" element={<Profile />} />
-
-          {/* Admin Page */}
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/orders" element={<Orders />} />
-        </Routes>
+        <div className="pages">
+          <Routes>
+            <Route path="/" element={<Root />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </div>
       </BrowserRouter>
-      <footer
-        style={{
-          position: "fixed",
-          left: 0,
-          bottom: 0,
-          textAlign: "center",
-          width: "100%",
-        }}
-      >
-        &copy; {year} Hetarth
-      </footer>
     </div>
   );
-};
+}
 
 export default App;

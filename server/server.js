@@ -12,19 +12,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 connectDB();
-
-app.use("/users", require("./routes/users"));
-app.use("/login", require("./routes/auth"));
-app.use("/register", require("./routes/register"));
-app.use("/refresh", require("./routes/refresh"));
-app.use("/logout", require("./routes/logout"));
-app.use("/log", require("./routes/log"));
-app.use("/product", require("./routes/product"));
-app.use("/wishlist", require("./routes/wishlist"));
-app.use("/cart", require("./routes/cart"));
-app.use("/order", require("./routes/order"));
-
 const port = 5000;
+
+app.use("/user", require("./routes/user"));
+app.use("/data", require("./routes/data"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);
