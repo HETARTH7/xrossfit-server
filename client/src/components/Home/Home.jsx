@@ -1,17 +1,10 @@
 import React, { useEffect } from "react";
-import { useLogout } from "../hooks/useLogout";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import "./Home.css";
+import Navbar from "../Navbar/Navbar";
 
 const Home = () => {
-  const { logout } = useLogout();
-  const navigate = useNavigate();
   const { user } = useAuthContext();
-
-  const handleClick = () => {
-    logout();
-    navigate("/");
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,8 +25,7 @@ const Home = () => {
 
   return (
     <div>
-      <span>{!user ? "" : user.email}</span>
-      <button onClick={handleClick}>Log out</button>
+      <Navbar />
     </div>
   );
 };

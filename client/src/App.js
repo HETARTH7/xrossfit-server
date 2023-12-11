@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login/Login.jsx";
 import Signup from "./components/Signup/Signup.jsx";
 import Root from "./components/Root/Root.jsx";
-import Home from "./components/Home.jsx";
+import Home from "./components/Home/Home.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
