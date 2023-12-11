@@ -14,7 +14,7 @@ const Root = () => {
 
         <Link
           style={{ background: "#96f2d7" }}
-          className="btn fs-4 rounded-pill hov"
+          className="btn fs-4 rounded-pill"
           to="/login"
         >
           Login
