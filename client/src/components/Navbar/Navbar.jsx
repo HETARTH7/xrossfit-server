@@ -14,7 +14,7 @@ const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <Link className="navbar-brand fs-2" to={"/user"}>
+          <Link className="navbar-brand fs-2" to={"/home"}>
             Xrossfit
           </Link>
           <button
@@ -36,17 +36,17 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item ms-4">
-                <Link className="nav-link" to="/list">
+                <Link className="nav-link" to="/shop">
                   Shop
                 </Link>
               </li>
               <li className="nav-item ms-4">
-                <Link className="nav-link" to="/store">
+                <Link className="nav-link" to="/recommend">
                   Get recommendation
                 </Link>
               </li>
               <li className="nav-item ms-4">
-                <Link className="nav-link" aria-current="page" to="/track">
+                <Link className="nav-link" aria-current="page" to="/chat">
                   Chat
                 </Link>
               </li>

@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 const exerciseLogSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
     required: true,
   },
   exerciseName: {
@@ -25,10 +24,6 @@ const exerciseLogSchema = new Schema({
     default: null,
   },
   repetitions: {
-    type: Number,
-    default: null,
-  },
-  weight: {
     type: Number,
     default: null,
   },
