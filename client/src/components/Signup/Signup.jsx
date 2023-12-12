@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSignup } from "../../hooks/useSignup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
@@ -8,13 +8,11 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup, error, isLoading } = useSignup();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await signup(name, email, password);
-    if (!error) navigate("/home");
   };
 
   return (
@@ -26,8 +24,8 @@ const Signup = () => {
             className="border text-center mt-5 p-5 rounded-5"
             onSubmit={handleSubmit}
           >
-            <h2 className="mb-5">Sign Up</h2>
-            <div className="form-group m-2">
+            <h2 className="mb-1">Sign Up</h2>
+            <div className="form-group">
               <label>Name</label>
               <input
                 type="text"
@@ -36,7 +34,7 @@ const Signup = () => {
                 value={name}
               />
             </div>
-            <div className="form-group m-2">
+            <div className="form-group">
               <label>Email address:</label>
               <input
                 type="email"
@@ -46,7 +44,7 @@ const Signup = () => {
               />
             </div>
 
-            <div className="form-group m-2">
+            <div className="form-group">
               <label>Password:</label>
               <input
                 type="password"
@@ -56,10 +54,18 @@ const Signup = () => {
               />
             </div>
 
+            <ul className="text-warning mt-3" style={{ fontSize: "13px" }}>
+              <li>Password must contain more than 8 characters</li>
+              <li>
+                Password must have atlest 1 Uppercase alphabet, 1 special
+                character(@,#,$,%,&,etc)
+              </li>
+            </ul>
+
             <button
               type="submit"
               style={{ background: "#96f2d7" }}
-              className="btn wid rounded mt-5"
+              className="btn wid rounded mt-2"
               disabled={isLoading}
             >
               Sign up

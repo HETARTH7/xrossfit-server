@@ -37,7 +37,7 @@ const Root = () => {
         <Link className="button btn fs-4" to="/signup">
           Signup
         </Link>
-        <p className="blockquote mt-5 text-success">{quote}</p>
+        <p className="fst-italic blockquote mt-5 text-success">{quote}</p>
         <p className="blockquote-footer">{author}</p>
       </div>
     </div>
