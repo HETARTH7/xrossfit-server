@@ -14,7 +14,11 @@ const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <Link className="navbar-brand fs-2" to={"/home"}>
+          <Link
+            style={{ color: "#099268" }}
+            className="navbar-brand fs-2 fw-bold"
+            to={"/home"}
+          >
             Xrossfit
           </Link>
           <button

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import "./Track.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ExerciseLogForm = () => {
   const { user } = useAuthContext();
+  const [logs, setLogs] = useState([]);
   const [exerciseLog, setExerciseLog] = useState({
     exerciseName: "",
     duration: null,
@@ -21,6 +22,23 @@ const ExerciseLogForm = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const fetchLog = async () => {
+      const response = await fetch(`http://localhost:5000/log/${user.email}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        setLogs(json);
+      }
+    };
+
+    if (user) {
+      fetchLog();
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +70,21 @@ const ExerciseLogForm = () => {
     });
   };
 
+  const deleteLog = async (id) => {
+    const response = await fetch(`http://localhost:5000/log/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log(json);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -68,7 +101,6 @@ const ExerciseLogForm = () => {
               name="exerciseName"
               value={exerciseLog.exerciseName}
               onChange={handleChange}
-              placeholder="Enter exercise name"
             />
           </div>
         </div>
@@ -168,7 +200,33 @@ const ExerciseLogForm = () => {
           </button>
         </div>
       </form>
-      ;
+      <div className="container mt-5">
+        <table className="table">
+          <tbody>
+            {logs.map((log, index) => {
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{log.exerciseName}</td>
+                  <td>{log.duration}</td>
+                  <td>{log.sets}</td>
+                  <td>{log.repetitions}</td>
+                  <td>{log.caloricBurn}</td>
+                  <td>{log.notes}</td>
+                  <td>
+                    <button
+                      onClick={() => deleteLog(log._id)}
+                      className="bg-success ps-2 pe-2 rounded"
+                    >
+                      X
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
