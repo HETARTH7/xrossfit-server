@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Root.css";
 
 const Root = () => {
+  const [quote, setQuote] = useState("");
+  const [author, setAuthor] = useState("");
+
+  useEffect(() => {
+    const fetchQuote = async () => {
+      const response = await fetch(
+        "https://api.api-ninjas.com/v1/quotes?category=fitness",
+        { headers: { "X-Api-Key": "oJbcw7kiaA43VS3s9GgOWw==Bs5U6TODXVKbUqyH" } }
+      );
+      const json = await response.json();
+      setQuote(json[0].quote);
+      setAuthor(json[0].author);
+    };
+    fetchQuote();
+  }, []);
   return (
     <div>
       <div className="text-center">
@@ -22,6 +37,8 @@ const Root = () => {
         <Link className="button btn fs-4" to="/signup">
           Signup
         </Link>
+        <p className="blockquote mt-5 text-success">{quote}</p>
+        <p className="blockquote-footer">{author}</p>
       </div>
     </div>
   );
