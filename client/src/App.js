@@ -6,6 +6,7 @@ import Root from "./components/Root.jsx";
 import Home from "./components/Home.jsx";
 import Track from "./components/Track.jsx";
 import Admin from "./components/Admin.jsx";
+import Shop from "./components/Shop.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/track" element={<Track />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/shop" element={<Shop />} />
           </Routes>
         </div>
       </BrowserRouter>

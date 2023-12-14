@@ -8,7 +8,7 @@ const Product = () => {
     description: "",
     price: "",
     stockAvailability: "",
-    newProductImage: "",
+    productImage: "",
     category: "",
   });
 
@@ -21,7 +21,7 @@ const Product = () => {
       setProducts(json);
     };
     getProducts();
-  }, []);
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +31,8 @@ const Product = () => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const response = await fetch("http://localhost:5000/product", {
       method: "POST",
       headers: {
@@ -44,6 +45,14 @@ const Product = () => {
 
     if (response.ok) {
       console.log(json);
+      setNewProduct({
+        name: "",
+        description: "",
+        price: "",
+        stockAvailability: "",
+        productImage: "",
+        category: "",
+      });
     }
   };
 
@@ -142,9 +151,9 @@ const Product = () => {
           <input
             type="text"
             className="form-control"
-            id="newProductImage"
-            name="newProductImage"
-            value={newProduct.newProductImage}
+            id="ProductImage"
+            name="productImage"
+            value={newProduct.productImage}
             onChange={handleChange}
           />
         </div>
