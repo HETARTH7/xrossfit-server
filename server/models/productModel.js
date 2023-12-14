@@ -25,10 +25,10 @@ const productSchema = new Schema({
   },
   averageUserRating: {
     type: Number,
-    default: null,
+    default: 0,
   },
   reviews: {
-    type: [{ user: Schema.Types.ObjectId, content: String, rating: Number }],
+    type: [{ user: String, content: String, rating: Number }],
     default: [],
   },
   category: {

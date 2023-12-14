@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import "./Home.css";
-import Navbar from "../Navbar/Navbar";
+import { useAuthContext } from "../hooks/useAuthContext";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const { user } = useAuthContext();

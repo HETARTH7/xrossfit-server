@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/dbConfig");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
+require("dotenv").config();
 
 const app = express();
 app.use(credentials);
@@ -17,6 +18,7 @@ const port = 5000;
 app.use("/user", require("./routes/user"));
 app.use("/data", require("./routes/data"));
 app.use("/log", require("./routes/exerciseLog"));
+app.use("/product", require("./routes/product"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);

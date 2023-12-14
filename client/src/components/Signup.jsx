@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { useLogin } from "../../hooks/useLogin";
+import { useSignup } from "../hooks/useSignup";
 import { Link } from "react-router-dom";
-import "./Login.css";
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, isLoading } = useLogin();
+  const { signup, error, isLoading } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+
+    await signup(name, email, password);
   };
 
   return (
@@ -18,12 +19,21 @@ const Login = () => {
       <div className="row justify-content-center">
         <div className="col-md-4 mt-5 p-3">
           <form
-            onSubmit={handleSubmit}
             style={{ backgroundColor: "#f8f9fa" }}
             className="border text-center mt-5 p-5 rounded-5"
+            onSubmit={handleSubmit}
           >
-            <h2 className="mb-5">Log In</h2>
-            <div className="form-group m-2">
+            <h2 className="mb-1">Sign Up</h2>
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+              />
+            </div>
+            <div className="form-group">
               <label>Email address:</label>
               <input
                 type="email"
@@ -32,7 +42,8 @@ const Login = () => {
                 value={email}
               />
             </div>
-            <div className="form-group m-2">
+
+            <div className="form-group">
               <label>Password:</label>
               <input
                 type="password"
@@ -41,17 +52,26 @@ const Login = () => {
                 value={password}
               />
             </div>
+
+            <ul className="text-warning mt-3" style={{ fontSize: "13px" }}>
+              <li>Password must contain more than 8 characters</li>
+              <li>
+                Password must have atlest 1 Uppercase alphabet, 1 special
+                character(@,#,$,%,&,etc)
+              </li>
+            </ul>
+
             <button
               type="submit"
               style={{ background: "#96f2d7" }}
-              className="btn wid rounded mt-5"
+              className="btn wid rounded mt-2"
               disabled={isLoading}
             >
-              Log in
+              Sign up
             </button>
             <div>
-              <Link className="btn p-4" to={"/signup"}>
-                Create a new account
+              <Link className="btn p-4" to={"/login"}>
+                Already have an account?
               </Link>
             </div>
             {error && <div className="text-danger error mt-3">{error}</div>}
@@ -62,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

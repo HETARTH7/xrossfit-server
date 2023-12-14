@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../Navbar/Navbar";
-import "./Track.css";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import Navbar from "./Navbar";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ExerciseLogForm = () => {
   const { user } = useAuthContext();

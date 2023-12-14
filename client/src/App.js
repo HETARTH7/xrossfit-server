@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Login from "./components/Login/Login.jsx";
-import Signup from "./components/Signup/Signup.jsx";
-import Root from "./components/Root/Root.jsx";
-import Home from "./components/Home/Home.jsx";
-import Track from "./components/Track/Track.jsx";
-import Admin from "./components/Admin/Admin.jsx";
+import Login from "./components/Login.jsx";
+import Signup from "./components/Signup.jsx";
+import Root from "./components/Root.jsx";
+import Home from "./components/Home.jsx";
+import Track from "./components/Track.jsx";
+import Admin from "./components/Admin.jsx";
 
 function App() {
   return (

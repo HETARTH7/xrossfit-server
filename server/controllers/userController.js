@@ -5,6 +5,15 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, "fuckyoubitch", { expiresIn: "3d" });
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({ role: "user" });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -29,4 +38,4 @@ const signupUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser };
+module.exports = { signupUser, loginUser, getUsers };
