@@ -19,6 +19,7 @@ app.use("/user", require("./routes/user"));
 app.use("/data", require("./routes/data"));
 app.use("/log", require("./routes/exerciseLog"));
 app.use("/product", require("./routes/product"));
+app.use("/order", require("./routes/order"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);
