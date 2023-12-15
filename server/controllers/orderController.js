@@ -26,8 +26,30 @@ const getOrders = async (req, res) => {
 
 const addToCart = async (req, res) => {
   try {
-    newItem = new Order(req.body);
-    await newItem.save();
+    const { user, product, price } = req.body;
+    let cart = await Order.findOne({ status: "In Cart", user });
+
+    if (!cart) {
+      cart = new Order({
+        user,
+        products: [{ product, quantity: 1, price: price }],
+        totalPrice: price,
+      });
+    } else {
+      const existingProduct = cart.products.find(
+        (cartProduct) => cartProduct.product === product
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.products.push({ product, quantity: 1 });
+      }
+
+      cart.totalPrice += price;
+    }
+
+    await cart.save();
     res.status(200).json("Cart updated");
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -42,10 +64,24 @@ const removeProductFromCart = async (req, res) => {
       { $pull: { products: { _id: productId } } },
       { new: true }
     );
-    if (!updatedOrder) {
-      return res.status(404).json({ message: error.message });
-    }
+    if (!updatedOrder.products.length) await Order.findByIdAndRemove(orderId);
     res.status(200).json("Item Removed");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const decrementProductQuantity = async (req, res) => {
+  try {
+    const { user, product, price } = req.body;
+    let cart = await Order.findOne({ status: "In Cart", user });
+    const existingProduct = cart.products.find(
+      (cartProduct) => cartProduct.product === product
+    );
+    existingProduct.quantity -= 1;
+    cart.totalPrice -= price;
+    await cart.save();
+    res.status(200).json("Cart updated");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -92,4 +128,5 @@ module.exports = {
   removeProductFromCart,
   placeOrder,
   completeOrder,
+  decrementProductQuantity,
 };

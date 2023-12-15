@@ -5,6 +5,7 @@ const {
   completeOrder,
   placeOrder,
   getOrders,
+  decrementProductQuantity,
 } = require("../controllers/orderController");
 
 const router = require("express").Router();
@@ -16,5 +17,6 @@ router.get("/:user", getOrders);
 router.delete("/:orderId/:productId", removeProductFromCart);
 router.put("/complete/:orderId", completeOrder);
 router.put("/place/:orderId", placeOrder);
+router.put("/cart", decrementProductQuantity);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Product from "./Product";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -35,6 +36,15 @@ const Shop = () => {
   return (
     <div>
       <Navbar />
+      <Link to={"/cart"}>
+        <img
+          src="/cart.svg"
+          alt=""
+          width={35}
+          className="position-fixed top-0 end-0 mt-5 me-4 pt-3 pt-md-5"
+        />
+      </Link>
+
       {selectedProduct && (
         <Product onClose={handleCloseProduct} data={selectedProduct} />
       )}

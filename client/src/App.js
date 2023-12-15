@@ -7,6 +7,7 @@ import Home from "./components/Home.jsx";
 import Track from "./components/Track.jsx";
 import Admin from "./components/Admin.jsx";
 import Shop from "./components/Shop.jsx";
+import Cart from "./components/Cart.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/track" element={<Track />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
       </BrowserRouter>

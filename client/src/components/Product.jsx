@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Product = ({ data, onClose }) => {
+  const { user } = useAuthContext();
   const [reviewForm, setReviewForm] = useState({
     user: "",
     content: "",
@@ -14,7 +16,6 @@ const Product = ({ data, onClose }) => {
       ...reviewForm,
       [name]: rating,
     });
-    console.log(reviewForm);
   };
 
   const handleSubmitReview = async (id) => {
@@ -34,6 +35,24 @@ const Product = ({ data, onClose }) => {
     });
   };
 
+  const addToCart = async () => {
+    const response = await fetch("http://localhost:5000/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: user.email,
+        product: data.name,
+        price: data.price,
+      }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      console.log(json);
+    }
+  };
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -50,6 +69,13 @@ const Product = ({ data, onClose }) => {
               <p className="card-text">
                 {data.description || "No description available"}
               </p>
+              <button
+                onClick={addToCart}
+                style={{ background: "#96f2d7" }}
+                className="btn rounded mb-3"
+              >
+                Add to Cart
+              </button>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                   <strong>Price:</strong> ₹{data.price}
@@ -80,7 +106,7 @@ const Product = ({ data, onClose }) => {
                 )}
               </ul>
               <form onSubmit={() => handleSubmitReview(data._id)}>
-                <div className="mb-1">
+                <div className="mb-3">
                   <label htmlFor="user" className="form-label">
                     Your Name:
                   </label>
@@ -94,7 +120,7 @@ const Product = ({ data, onClose }) => {
                     required
                   />
                 </div>
-                <div className="mb-1">
+                <div className="mb-3">
                   <label htmlFor="content" className="form-label">
                     Review Content:
                   </label>
@@ -107,7 +133,7 @@ const Product = ({ data, onClose }) => {
                     required
                   ></textarea>
                 </div>
-                <div className="mb-1">
+                <div className="mb-3">
                   <label htmlFor="rating" className="form-label">
                     Rating (1-5):
                   </label>
@@ -123,7 +149,11 @@ const Product = ({ data, onClose }) => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  style={{ background: "#96f2d7" }}
+                  className="btn rounded"
+                >
                   Submit Review
                 </button>
               </form>
