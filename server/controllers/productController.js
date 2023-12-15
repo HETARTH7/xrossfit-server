@@ -23,15 +23,14 @@ const addProduct = async (req, res) => {
 const updateRatings = async (req, res) => {
   try {
     const { user, content, rating } = req.body;
-    const product = await Product.find({ _id: req.params.id });
-    averageUserRating = await product[0].averageUserRating;
-    n = product[0].reviews.length;
-    if (!n) averageUserRating = rating;
-    else averageUserRating = (await (averageUserRating / n + rating)) / (n + 1);
-
-    product[0].averageUserRating = await averageUserRating;
-    await product[0].reviews.push(req.body);
-    await product[0].save();
+    const product = await Product.findById(req.params.id);
+    const currentTotalRating =
+      product.averageUserRating * product.reviews.length;
+    const newAverageUserRating =
+      (currentTotalRating + rating) / (product.reviews.length + 1);
+    product.averageUserRating = newAverageUserRating;
+    product.reviews.push({ user, content, rating });
+    await product.save();
     res.status(200).json("Review added");
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import Product from "./Product";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [hoveredProduct, setHoveredProduct] = useState(null);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -17,14 +20,39 @@ const Shop = () => {
     getProducts();
   }, []);
 
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleProductHover = (product) => {
+    setHoveredProduct(product);
+  };
+
+  const handleCloseProduct = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div>
       <Navbar />
+      {selectedProduct && (
+        <Product onClose={handleCloseProduct} data={selectedProduct} />
+      )}
       <div className="container mt-5">
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {products.map((product, index) => (
-            <div key={index} className="col">
-              <div className="card h-100">
+            <div
+              key={index}
+              className={`col ${hoveredProduct === product ? "col-lg-4" : ""}`}
+            >
+              <div
+                className={`card h-100 ${
+                  hoveredProduct === product ? "bg-light" : ""
+                }`}
+                onClick={() => handleProductClick(product)}
+                onMouseEnter={() => handleProductHover(product)}
+                onMouseLeave={() => handleProductHover(null)}
+              >
                 <img
                   src={product.productImage}
                   className="card-img-top"
