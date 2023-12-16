@@ -80,6 +80,16 @@ const Cart = () => {
     }
   };
 
+  const checkout = async () => {
+    const response = await fetch(
+      `http://localhost:5000/order/place/${order._id}`,
+      { method: "PUT" }
+    );
+    const json = await response.json();
+    if (response.ok) console.log(json);
+    window.location = "/shop";
+  };
+
   return (
     <div>
       <Navbar />
@@ -115,7 +125,8 @@ const Cart = () => {
         </ul>
         <div className="mt-3">
           <strong>Total:</strong> ₹{order.totalPrice}
-        </div> 
+        </div>
+        <button onClick={checkout}>Pay</button>
       </div>
     </div>
   );
