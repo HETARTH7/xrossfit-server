@@ -9,6 +9,7 @@ import Track from "./components/Track.jsx";
 import Admin from "./components/Admin.jsx";
 import Shop from "./components/Shop.jsx";
 import Cart from "./components/Cart.jsx";
+import Recommendation from "./components/Recommendation.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/recommend" element={<Recommendation />} />
           </Routes>
         </div>
       </BrowserRouter>
