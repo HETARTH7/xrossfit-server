@@ -7,7 +7,7 @@ const {
 } = require("../controllers/exerciseLogController");
 const router = express.Router();
 
-// router.use(requireAuth);
+router.use(requireAuth);
 router.post("/", addLog);
 router.get("/:user", getLogs);
 router.delete("/:id", deleteLog);

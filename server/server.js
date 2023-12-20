@@ -6,6 +6,9 @@ const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 require("dotenv").config();
 
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
 app.use(credentials);
 app.use(cors(corsOptions));
@@ -20,6 +23,17 @@ app.use("/data", require("./routes/data"));
 app.use("/log", require("./routes/exerciseLog"));
 app.use("/product", require("./routes/product"));
 app.use("/order", require("./routes/order"));
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  /* options */
+});
+
+io.on("connection", (socket) => {
+  // ...
+});
+
+httpServer.listen(3000);
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);

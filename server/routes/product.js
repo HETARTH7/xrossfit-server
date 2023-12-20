@@ -5,7 +5,10 @@ const {
   updateRatings,
 } = require("../controllers/productController");
 
-const router = require("express").Router();
+const requireAuth = require("../middleware/requireAuth");
+const router = express.Router();
+
+router.use(requireAuth);
 
 router.get("/", getProduct);
 router.post("/", addProduct);

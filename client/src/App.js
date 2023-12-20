@@ -10,6 +10,7 @@ import Admin from "./components/Admin.jsx";
 import Shop from "./components/Shop.jsx";
 import Cart from "./components/Cart.jsx";
 import Recommendation from "./components/Recommendation.jsx";
+import Chat from "./components/Chat.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/recommend" element={<Recommendation />} />
+            <Route path="/chat" element={<Chat />} />
           </Routes>
         </div>
       </BrowserRouter>
