@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Product from "./Product";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Shop = () => {
+  const { user } = useAuthContext();
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -11,7 +13,12 @@ const Shop = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/product");
+        const response = await fetch("http://localhost:5000/product", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.json();
         setProducts(json);
       } catch (error) {
@@ -19,7 +26,7 @@ const Shop = () => {
       }
     };
     getProducts();
-  }, []);
+  }, [user]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);

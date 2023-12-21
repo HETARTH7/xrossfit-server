@@ -1,11 +1,10 @@
-const express = require("express");
 const {
   loginUser,
   signupUser,
   getUsers,
 } = require("../controllers/userController");
 
-const router = express.Router();
+const router = require("express").Router();
 
 router.get("/", getUsers);
 router.post("/login", loginUser);

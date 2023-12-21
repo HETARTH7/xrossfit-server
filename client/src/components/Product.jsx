@@ -23,6 +23,7 @@ const Product = ({ data, onClose }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify(reviewForm),
     });
@@ -40,6 +41,7 @@ const Product = ({ data, onClose }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify({
         user: user.email,
