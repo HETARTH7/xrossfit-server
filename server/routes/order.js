@@ -8,10 +8,10 @@ const {
   decrementProductQuantity,
 } = require("../controllers/orderController");
 
-const requireAuth = require("../middleware/requireAuth");
+// const requireAuth = require("../middleware/requireAuth");
 const router = require("express").Router();
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
 router.post("/", addToCart);
 router.get("/cart/:user", getCart);

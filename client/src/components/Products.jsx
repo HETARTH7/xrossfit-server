@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
 
 const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const productsPerPage = 5;
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -21,7 +21,7 @@ const Product = () => {
       const response = await fetch("http://localhost:5000/product", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          // Authorization: `Bearer ${user.token}`,
         },
       });
       const json = await response.json();
@@ -44,7 +44,7 @@ const Product = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        // Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify(newProduct),
     });

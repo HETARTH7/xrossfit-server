@@ -8,7 +8,7 @@ const {
 const requireAuth = require("../middleware/requireAuth");
 const router = require("express").Router();
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
 router.get("/", getProduct);
 router.post("/", addProduct);

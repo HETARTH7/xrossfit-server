@@ -15,7 +15,6 @@ const Cart = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
             },
           }
         );
@@ -39,7 +38,6 @@ const Cart = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify({
         user: user.email,
@@ -58,7 +56,6 @@ const Cart = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify({
         user: user.email,
@@ -79,7 +76,6 @@ const Cart = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
         },
       }
     );
@@ -92,7 +88,7 @@ const Cart = () => {
   const checkout = async () => {
     const response = await fetch(
       `http://localhost:5000/order/place/${order._id}`,
-      { method: "PUT", headers: { Authorization: `Bearer ${user.token}` } }
+      { method: "PUT" }
     );
     const json = await response.json();
     if (response.ok) console.log(json);
