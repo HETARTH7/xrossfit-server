@@ -1,14 +1,20 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Navbar = () => {
+  const { user } = useAuthContext();
   const { logout } = useLogout();
   const navigate = useNavigate();
 
   const handleClick = () => {
     logout();
     navigate("/");
+  };
+
+  const getProfile = async () => {
+    navigate(`/${user.email}`);
   };
   return (
     <div>
@@ -62,6 +68,7 @@ const Navbar = () => {
                   alt=""
                   height={"40px"}
                   className="m-2 me-4 rounded-pill"
+                  onClick={getProfile}
                 />
               </li>
 
