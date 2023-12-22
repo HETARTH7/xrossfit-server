@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  // const { user } = useAuthContext();
-  const productsPerPage = 5;
+  const { user } = useAuthContext();
+  const productsPerPage = 2;
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -21,13 +21,13 @@ const Product = () => {
       const response = await fetch("http://localhost:5000/product", {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       const json = await response.json();
       setProducts(json);
     };
-    getProducts();
+    if (user) getProducts();
   });
 
   const handleChange = (event) => {
@@ -44,7 +44,7 @@ const Product = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
       body: JSON.stringify(newProduct),
     });
@@ -165,7 +165,7 @@ const Product = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn" style={{ background: "#96f2d7" }}>
+        <button type="submit" className="btn mt-2" style={{ background: "#96f2d7" }}>
           Submit
         </button>
       </form>
@@ -202,7 +202,7 @@ const Product = () => {
               }`}
             >
               <button
-                className="btn"
+                className="btn m-1"
                 style={{ background: "grey" }}
                 onClick={() => handlePageChange(index + 1)}
               >

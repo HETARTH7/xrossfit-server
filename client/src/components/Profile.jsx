@@ -30,13 +30,14 @@ const Profile = () => {
               <strong>Email:</strong> {userInfo.email}
             </div>
             <div className="mb-3">
-              <strong>Address:</strong> {userInfo.address || "N/A"}
+              <strong>Address:</strong>{" "}
+              {userInfo.address || <textarea></textarea>}
             </div>
             <div className="mb-3">
-              <strong>Phone:</strong> {userInfo.phone || "N/A"}
+              <strong>Phone:</strong> {userInfo.phone || <input type="tel" />}
             </div>
             <div className="mb-3">
-              <strong>Age:</strong> {userInfo.age || "N/A"}
+              <strong>Age:</strong> {userInfo.age || <input type="number" />}
             </div>
           </div>
         ) : (
