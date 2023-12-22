@@ -90,7 +90,7 @@ const Product = ({ data, onClose }) => {
                 </li>
                 <li className="list-group-item">
                   <strong>Average User Rating:</strong>{" "}
-                  {data.averageUserRating || "Not rated"}
+                  {data.averageUserRating.toPrecision(3) || "Not rated"}
                 </li>
                 {data.reviews.length > 0 && (
                   <li className="list-group-item">

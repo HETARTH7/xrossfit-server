@@ -91,7 +91,7 @@ const Shop = () => {
                   </li>
                   <li className="list-group-item">
                     <strong>Average User Rating:</strong>{" "}
-                    {product.averageUserRating || "Not rated"}
+                    {product.averageUserRating.toPrecision(3) || "Not rated"}
                   </li>
                 </ul>
               </div>
