@@ -4,6 +4,6 @@ const requireAuth = require("../middleware/requireAuth");
 const router = express.Router();
 
 router.use(requireAuth);
-router.get("/", getData);
+router.get("/:email", getData);
 
 module.exports = router;

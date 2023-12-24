@@ -4,10 +4,10 @@ import Navbar from "./Navbar";
 
 const Home = () => {
   const { user } = useAuthContext();
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:5000/data", {
+      const response = await fetch(`http://localhost:5000/data/${user.email}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
