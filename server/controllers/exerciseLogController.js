@@ -9,6 +9,7 @@ const addLog = async (req, res) => {
     const notes = exerciseLog.notes;
     const repetitions = exerciseLog.repetitions;
     const sets = exerciseLog.sets;
+    const date = exerciseLog.date;
 
     const newLog = ExerciseLog({
       user,
@@ -18,6 +19,7 @@ const addLog = async (req, res) => {
       notes,
       repetitions,
       sets,
+      date,
     });
     newLog.save();
     res.status(200).json("Exercise added");

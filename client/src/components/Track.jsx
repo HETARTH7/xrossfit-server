@@ -2,9 +2,29 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 const ExerciseLogForm = () => {
   const { user } = useAuthContext();
   const [logs, setLogs] = useState([]);
+  const date = new Date();
+  const today = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
   const [exerciseLog, setExerciseLog] = useState({
     exerciseName: "",
     duration: null,
@@ -12,6 +32,7 @@ const ExerciseLogForm = () => {
     repetitions: null,
     caloricBurn: null,
     notes: "",
+    date: today + " " + months[parseInt(month)] + " " + year,
   });
 
   const handleChange = (e) => {
@@ -207,11 +228,12 @@ const ExerciseLogForm = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{log.exerciseName}</td>
-                  <td>{log.duration}</td>
-                  <td>{log.sets}</td>
-                  <td>{log.repetitions}</td>
-                  <td>{log.caloricBurn}</td>
+                  <td>{log.duration} mins</td>
+                  <td>{log.sets} sets</td>
+                  <td>{log.repetitions} x</td>
+                  <td>{log.caloricBurn} calories burnt</td>
                   <td>{log.notes}</td>
+                  <td>{log.date}</td>
                   <td>
                     <button
                       onClick={() => deleteLog(log._id)}

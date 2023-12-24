@@ -11,10 +11,6 @@ const exerciseLogSchema = new Schema({
     type: String,
     required: true,
   },
-  dateAndTime: {
-    type: Date,
-    default: Date.now,
-  },
   duration: {
     type: Number,
     default: null,
@@ -34,6 +30,9 @@ const exerciseLogSchema = new Schema({
   notes: {
     type: String,
     default: null,
+  },
+  date: {
+    type: "String",
   },
 });
 
