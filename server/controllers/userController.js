@@ -48,4 +48,17 @@ const signupUser = async (req, res) => {
   }
 };
 
-module.exports = { signupUser, loginUser, getUsers, getUser };
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { address, phone, age, height, weight, gender } = req.body;
+    await User.updateOne({ _id: id }, { $set: { address, phone, age, height, weight, gender } });
+
+    res.status(200).json({ message: 'User updated' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+module.exports = { signupUser, loginUser, getUsers, getUser, updateUser };
