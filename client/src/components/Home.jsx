@@ -16,6 +16,7 @@ const Home = () => {
         console.log(json);
       }
     };
+    
 
     if (user) {
       fetchData();
