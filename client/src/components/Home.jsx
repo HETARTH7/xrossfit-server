@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Navbar from "./Navbar";
-import LinePlot from "./ExerciseLineChart";
 
 const Home = () => {
   const { user } = useAuthContext();
-  const [exerciseData, setExerciseData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,8 +13,7 @@ const Home = () => {
       const json = await response.json();
 
       if (response.ok) {
-        const aggregatedData = aggregateExerciseData(json.exerciseLog);
-        setExerciseData(aggregatedData);
+        console.log(json);
       }
     };
 
@@ -25,32 +22,9 @@ const Home = () => {
     }
   }, [user]);
 
-  const aggregateExerciseData = (exerciseLog) => {
-    const dateCountMap = {};
-    exerciseLog.forEach((record) => {
-      const date = record.date;
-
-      if (dateCountMap[date]) {
-        dateCountMap[date] += 1;
-      } else {
-        dateCountMap[date] = 1;
-      }
-    });
-
-    const aggregatedData = Object.entries(dateCountMap).map(
-      ([date, count]) => ({
-        date,
-        count,
-      })
-    );
-
-    return aggregatedData;
-  };
-
   return (
     <div>
       <Navbar />
-      <LinePlot data={exerciseData} />
     </div>
   );
 };

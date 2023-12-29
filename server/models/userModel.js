@@ -62,39 +62,9 @@ const userSchema = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
-  lastLogin: {
-    day: {
-      type: Number,
-      required: true,
-    },
-    date: {
-      type: Number,
-      required: true,
-    },
-    month: {
-      type: Number,
-      required: true,
-    },
-    year: {
-      type: Number,
-      required: true,
-    },
-  },
-  streak: {
-    type: Number,
-    default: 1,
-  },
 });
 
 userSchema.statics.signup = async function (name, email, password) {
-  const currentDate = new Date();
-  const userStreakData = {
-    day: currentDate.getDay(),
-    date: currentDate.getDate(),
-    month: currentDate.getMonth(),
-    year: currentDate.getFullYear(),
-  };
-
   if (!name || !email || !password) {
     throw Error("All fields must be filled");
   }
@@ -118,22 +88,12 @@ userSchema.statics.signup = async function (name, email, password) {
     name,
     email,
     password: hash,
-    lastLogin: userStreakData,
-    streak: 1,
   });
 
   return user;
 };
 
 userSchema.statics.login = async function (email, password) {
-  const currentDate = new Date();
-  const userStreakData = {
-    day: currentDate.getDay(),
-    date: currentDate.getDate(),
-    month: currentDate.getMonth(),
-    year: currentDate.getFullYear(),
-  };
-
   if (!email || !password) {
     throw Error("All fields must be filled");
   }
@@ -147,27 +107,6 @@ userSchema.statics.login = async function (email, password) {
   if (!match) {
     throw Error("Incorrect password");
   }
-
-  const lastLogin = user.lastLogin;
-  if (
-    userStreakData.year !== lastLogin.year ||
-    userStreakData.month !== lastLogin.month ||
-    userStreakData.date !== lastLogin.date
-  ) {
-    user.streak = 1;
-  } else {
-    if (
-      userStreakData.day !== (lastLogin.day + 1) % 7 ||
-      userStreakData.date !== lastLogin.date + 1
-    ) {
-      user.streak = 1;
-    } else {
-      user.streak++;
-    }
-  }
-
-  user.lastLogin = userStreakData;
-  user.save();
 
   return user;
 };
