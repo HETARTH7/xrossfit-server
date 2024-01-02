@@ -1,34 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Navbar from "./Navbar";
 
 const Profile = () => {
   const { user } = useAuthContext();
-  const [userInfo, setUserInfo] = useState(null);
+
+  console.log(user);
+  const { dispatch } = useAuthContext();
   const [editMode, setEditMode] = useState(false);
   const [editedInfo, setEditedInfo] = useState({
     address: "",
     phone: "",
     age: "",
+    gender: "",
     height: "",
     weight: "",
   });
-
-  useEffect(() => {
-    const getInfo = async () => {
-      const response = await fetch(`http://localhost:5000/user/${user.email}`);
-      const json = await response.json();
-      setUserInfo(json[0]);
-    };
-    if (user) getInfo();
-  }, [user]);
 
   const handleEditClick = () => {
     setEditMode(true);
   };
 
-  const handleSaveClick = async (id) => {
-    const response = await fetch(`http://localhost:5000/user/${id}`, {
+  const handleSaveClick = async () => {
+    const response = await fetch(`http://localhost:5000/user/${user.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +31,15 @@ const Profile = () => {
     });
 
     if (response.ok) {
-      setUserInfo({ ...userInfo, ...editedInfo });
+      const json = { ...user, ...editedInfo };
+      user.address = editedInfo.address;
+      user.phone = editedInfo.phone;
+      user.age = editedInfo.age;
+      user.gender = editedInfo.gender;
+      user.height = editedInfo.height;
+      user.weight = editedInfo.weight;
+      dispatch({ type: "LOGIN", payload: json });
+      localStorage.setItem("user", JSON.stringify(json));
       setEditMode(false);
     } else {
       console.error("Failed to update user information");
@@ -56,16 +58,16 @@ const Profile = () => {
     <div>
       <Navbar />
       <div className="container mt-4">
-        {userInfo ? (
+        {user ? (
           <div>
             <h2>Your Profile</h2>
             <div className="mb-3 mt-5">
-              <strong>Name:</strong> {userInfo.name}
+              <strong>Name:</strong> {user.name}
             </div>
             <div className="mb-3">
-              <strong>Email:</strong> {userInfo.email}
+              <strong>Email:</strong> {user.email}
             </div>
-            {!userInfo.address && !editMode ? (
+            {!user.address && !editMode ? (
               <div className="mb-3">
                 <button
                   className="btn rounded"
@@ -80,7 +82,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Address:</strong>{" "}
                   {!editMode ? (
-                    userInfo.address
+                    user.address
                   ) : (
                     <textarea
                       className="form-control"
@@ -93,7 +95,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Phone:</strong>{" "}
                   {!editMode ? (
-                    userInfo.phone
+                    user.phone
                   ) : (
                     <input
                       className="form-control"
@@ -105,9 +107,27 @@ const Profile = () => {
                   )}
                 </div>
                 <div className="mb-3">
+                  <strong>Gender:</strong>{" "}
+                  {!editMode ? (
+                    user.gender
+                  ) : (
+                    <select
+                      className="form-control"
+                      name="gender"
+                      value={editedInfo.gender}
+                      onChange={handleInputChange}
+                    >
+                      <option>Choose your gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  )}
+                </div>
+                <div className="mb-3">
                   <strong>Age:</strong>{" "}
                   {!editMode ? (
-                    userInfo.age
+                    user.age
                   ) : (
                     <input
                       className="form-control"
@@ -121,7 +141,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Height:</strong>{" "}
                   {!editMode ? (
-                    userInfo.height
+                    user.height
                   ) : (
                     <input
                       className="form-control"
@@ -135,7 +155,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Weight:</strong>{" "}
                   {!editMode ? (
-                    userInfo.weight
+                    user.weight
                   ) : (
                     <input
                       className="form-control"
@@ -150,7 +170,7 @@ const Profile = () => {
                   <button
                     className="btn rounded"
                     style={{ background: "#96f2d7" }}
-                    onClick={() => handleSaveClick(userInfo._id)}
+                    onClick={() => handleSaveClick()}
                   >
                     Save Changes
                   </button>

@@ -29,8 +29,37 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
+    const id = user._id;
+    const name = user.name;
     const role = user.role;
-    res.status(200).json({ email, token, role });
+    const address = user.address;
+    const phone = user.phone;
+    const age = user.age;
+    const height = user.height;
+    const weight = user.weight;
+    const gender = user.gender;
+    const fitnessLevel = user.fitnessLevel;
+    const achievements = user.achievements;
+    const friendsList = user.friendsList;
+    const chatHistory = user.chatHistory;
+
+    res.status(200).json({
+      id,
+      name,
+      email,
+      token,
+      role,
+      address,
+      phone,
+      age,
+      height,
+      weight,
+      gender,
+      fitnessLevel,
+      achievements,
+      friendsList,
+      chatHistory,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -42,7 +71,8 @@ const signupUser = async (req, res) => {
   try {
     const user = await User.signup(name, email, password);
     const token = createToken(user._id);
-    res.status(200).json({ email, token });
+    const id = user._id;
+    res.status(200).json({ id, name, email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -52,13 +82,15 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { address, phone, age, height, weight, gender } = req.body;
-    await User.updateOne({ _id: id }, { $set: { address, phone, age, height, weight, gender } });
+    await User.updateOne(
+      { _id: id },
+      { $set: { address, phone, age, height, weight, gender } }
+    );
 
-    res.status(200).json({ message: 'User updated' });
+    res.status(200).json({ message: "User updated" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 module.exports = { signupUser, loginUser, getUsers, getUser, updateUser };
