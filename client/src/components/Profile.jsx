@@ -4,8 +4,6 @@ import Navbar from "./Navbar";
 
 const Profile = () => {
   const { user } = useAuthContext();
-
-  console.log(user);
   const { dispatch } = useAuthContext();
   const [editMode, setEditMode] = useState(false);
   const [editedInfo, setEditedInfo] = useState({

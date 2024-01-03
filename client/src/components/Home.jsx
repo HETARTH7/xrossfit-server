@@ -4,7 +4,6 @@ import Navbar from "./Navbar";
 
 const Home = () => {
   const { user } = useAuthContext();
-  console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
