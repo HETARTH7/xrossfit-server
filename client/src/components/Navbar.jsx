@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   const getProfile = async () => {
-    navigate(`/${user.email}`);
+    navigate(`/${user.name}`);
   };
   return (
     <div>

@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const friendRequestSchema = new Schema({
   sender: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   receiver: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   status: {
