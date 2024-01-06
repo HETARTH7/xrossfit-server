@@ -23,7 +23,7 @@ app.use("/data", require("./routes/data"));
 app.use("/log", require("./routes/exerciseLog"));
 app.use("/product", require("./routes/product"));
 app.use("/order", require("./routes/order"));
-// app.use("/friend", require("./routes/friendRequest"));
+app.use("/friendreq", require("./routes/friendRequest"));
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

@@ -55,11 +55,11 @@ const userSchema = new Schema({
     default: [],
   },
   friendsList: {
-    type: [Schema.Types.ObjectId],
+    type: [String],
     default: [],
   },
   chatHistory: {
-    type: [Schema.Types.ObjectId],
+    type: [String],
     default: [],
   },
 });

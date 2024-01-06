@@ -10,10 +10,6 @@ const friendRequestSchema = new Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    default: "Pending",
-  },
 });
 
 const FriendRequest = mongoose.model("FriendRequest", friendRequestSchema);
