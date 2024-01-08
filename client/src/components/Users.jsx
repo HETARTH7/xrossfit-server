@@ -22,7 +22,7 @@ const Users = () => {
   };
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -40,7 +40,7 @@ const Users = () => {
       <ul className="list-group">
         {filteredUsers.map((user, index) => (
           <li key={index} className="list-group-item">
-            {user.name}
+            {user}
           </li>
         ))}
       </ul>
