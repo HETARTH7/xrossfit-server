@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Root = () => {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (localStorage.getItem("user")) navigate("/home");
+
     const fetchQuote = async () => {
       const response = await fetch(
         "https://api.api-ninjas.com/v1/quotes?category=fitness",
@@ -16,7 +19,7 @@ const Root = () => {
       setAuthor(json[0].author);
     };
     fetchQuote();
-  }, []);
+  }, [navigate]);
   return (
     <div>
       <div className="text-center">

@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id) => {
-  return jwt.sign({ _id }, "fuckyoubitch", { expiresIn: "3d" });
+  return jwt.sign({ _id }, "paracetamol", { expiresIn: "3d" });
 };
 
 const getUsers = async (req, res) => {
@@ -16,9 +16,9 @@ const getUsers = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { email } = req.params;
+  const { id } = req.params;
   try {
-    const users = await User.find({ email: email });
+    const users = await User.findById(id);
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -33,33 +33,15 @@ const loginUser = async (req, res) => {
     const id = user._id;
     const name = user.name;
     const role = user.role;
-    const address = user.address;
-    const phone = user.phone;
-    const age = user.age;
-    const height = user.height;
-    const weight = user.weight;
-    const gender = user.gender;
-    const fitnessLevel = user.fitnessLevel;
-    const achievements = user.achievements;
-    const friendsList = user.friendsList;
-    const chatHistory = user.chatHistory;
-
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({
       id,
       name,
       email,
-      token,
       role,
-      address,
-      phone,
-      age,
-      height,
-      weight,
-      gender,
-      fitnessLevel,
-      achievements,
-      friendsList,
-      chatHistory,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -73,7 +55,11 @@ const signupUser = async (req, res) => {
     const user = await User.signup(name, email, password);
     const token = createToken(user._id);
     const id = user._id;
-    res.status(200).json({ id, name, email, token });
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
+    res.status(200).json({ id, name, email });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

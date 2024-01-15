@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
@@ -12,18 +13,14 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("http://localhost:5000/user/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const json = await response.json();
+    const response = await axios.post("/login", { email, password });
+    const json = await response.data;
 
-    if (!response.ok) {
+    if (response.status === 400) {
       setIsLoading(false);
       setError(json.error);
     }
-    if (response.ok) {
+    if (response.status === 200) {
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);

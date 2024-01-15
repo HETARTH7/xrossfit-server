@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Navbar from "./Navbar";
+import axios from "../api/axios";
 
 const Home = () => {
   const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:5000/data/${user.email}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        console.log(json);
-      }
+      const response = await axios(`/${user.id}`);
+      const json = await response.data;
+      console.log(json);
     };
 
     if (user) {
