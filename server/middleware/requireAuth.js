@@ -2,13 +2,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const requireAuth = async (req, res, next) => {
-  const { accessToken } = req.cookies;
-
-  if (!accessToken) {
-    return res.status(401).json({ error: "accessToken required" });
+  const { authorization } = req.headers;
+  
+  if (!authorization) {
+    return res.status(401).json({ error: "authorization required" });
   }
 
-  const token = accessToken.split(" ")[1];
+  const token = authorization.split(" ")[1];
 
   try {
     const { _id } = jwt.verify(token, "paracetamol");

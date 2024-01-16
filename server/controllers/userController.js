@@ -33,15 +33,12 @@ const loginUser = async (req, res) => {
     const id = user._id;
     const name = user.name;
     const role = user.role;
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
     res.status(200).json({
       id,
       name,
       email,
       role,
+      token,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -55,11 +52,7 @@ const signupUser = async (req, res) => {
     const user = await User.signup(name, email, password);
     const token = createToken(user._id);
     const id = user._id;
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json({ id, name, email });
+    res.status(200).json({ id, name, email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

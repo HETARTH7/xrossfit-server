@@ -16,6 +16,7 @@ connectDB();
 const port = 5000;
 
 app.use("/", require("./routes/userRouter"));
+app.use("/log", require("./routes/exerciseLogRouter"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);

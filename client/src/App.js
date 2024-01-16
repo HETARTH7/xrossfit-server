@@ -6,6 +6,7 @@ import Root from "./components/Root";
 import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Home from "./components/Home.jsx";
+import Track from "./components/Track.jsx";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
+          <Route path="track" element={<Track />} />
         </Routes>
       </BrowserRouter>
     </div>
