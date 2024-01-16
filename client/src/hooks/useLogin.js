@@ -12,19 +12,16 @@ export const useLogin = () => {
   const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
-
-    const response = await axios.post("/login", { email, password });
-    const json = await response.data;
-
-    if (response.status === 400) {
-      setIsLoading(false);
-      setError(json.error);
-    }
-    if (response.status === 200) {
+    try {
+      const response = await axios.post("/login", { email, password });
+      const json = await response.data;
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });
       setIsLoading(false);
       json.role === "user" ? navigate("/home") : navigate("/admin");
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.message);
     }
   };
 

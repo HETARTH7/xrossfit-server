@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import { Link } from "react-router-dom";
+import Error from "./Error";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = () => {
 
   return (
     <div className="container">
+      {error && <Error message={error} />}
       <div className="row justify-content-center">
         <div className="col-md-4 mt-5 p-3">
           <form
@@ -53,7 +55,6 @@ const Login = () => {
                 Create a new account
               </Link>
             </div>
-            {error && <div className="text-danger error mt-3">{error}</div>}
           </form>
         </div>
       </div>

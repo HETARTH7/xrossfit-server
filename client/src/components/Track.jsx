@@ -37,7 +37,7 @@ const ExerciseLogForm = () => {
     sets: null,
     repetitions: null,
     caloricBurn: null,
-    notes: "",
+    notes: "-",
     date: today + " " + months[parseInt(month)] + " " + year,
   });
 
@@ -54,11 +54,10 @@ const ExerciseLogForm = () => {
       const response = await axios.get(`/log/${user.email}`);
       const json = await response.data;
 
-      if (response.status === 200) {
-        setLogs(json);
-      }
+      if (response.status === 200) setLogs(json);
     } catch (error) {
       console.error("Error fetching logs:", error);
+      setError(error.message);
     }
   }, [user]);
 
@@ -70,26 +69,22 @@ const ExerciseLogForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(exerciseLog);
 
     try {
       const response = await axios.post("/log", {
         user: user.email,
         exerciseLog,
       });
-
-      if (response.status === 200) {
-        setSuccess("Exercise log added successfully!");
-        setError(null);
-        fetchLog();
-        reset();
-      }
+      setSuccess(response.data);
+      setError(null);
+      fetchLog();
+      reset();
     } catch (error) {
-      console.error("Error adding exercise log:", error);
       setSuccess(null);
-      setError("Error adding exercise log. Please try again.");
+      setError(error.message);
     }
   };
-
 
   const reset = () => {
     setExerciseLog({
@@ -103,16 +98,23 @@ const ExerciseLogForm = () => {
   };
 
   const deleteLog = async (id) => {
-    const response = await axios.delete(`/log/${id}`);
-    const json = await response.data;
+    try {
+      const response = await axios.delete(`/log/${id}`);
+      const json = await response.data;
 
-    if (response.status === 200) console.log(json);
-    fetchLog();
+      setSuccess(json);
+      fetchLog();
+    } catch (error) {
+      setSuccess(null);
+      setError(error.message);
+    }
   };
 
   return (
     <div>
       <Navbar />
+      {error && <Error message={error} />}
+      {success && <Success message={success} />}
       <form onSubmit={handleSubmit} className="container mt-4">
         <div className="mb-3 row">
           <label htmlFor="exerciseName" className="col-sm-2 col-form-label">
