@@ -51,7 +51,9 @@ const ExerciseLogForm = () => {
 
   const fetchLog = useCallback(async () => {
     try {
-      const response = await axios.get(`/log/${user.email}`);
+      const response = await axios.get(`/log/${user.email}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const json = await response.data;
 
       if (response.status === 200) setLogs(json);
@@ -72,10 +74,14 @@ const ExerciseLogForm = () => {
     console.log(exerciseLog);
 
     try {
-      const response = await axios.post("/log", {
-        user: user.email,
-        exerciseLog,
-      });
+      const response = await axios.post(
+        "/log",
+        {
+          user: user.email,
+          exerciseLog,
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
       setSuccess(response.data);
       setError(null);
       fetchLog();
@@ -99,7 +105,9 @@ const ExerciseLogForm = () => {
 
   const deleteLog = async (id) => {
     try {
-      const response = await axios.delete(`/log/${id}`);
+      const response = await axios.delete(`/log/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       const json = await response.data;
 
       setSuccess(json);
