@@ -64,7 +64,7 @@ const removeProductFromCart = async (req, res) => {
       { $pull: { products: { _id: productId } } },
       { new: true }
     );
-    if (!updatedOrder.products.length) await Order.findByIdAndRemove(orderId);
+    if (!updatedOrder.products.length) await Order.findByIdAndDelete(orderId);
     res.status(200).json("Item Removed");
   } catch (error) {
     res.status(500).json({ message: error.message });

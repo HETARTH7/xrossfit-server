@@ -55,8 +55,7 @@ const ExerciseLogForm = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.data;
-
-      if (response.status === 200) setLogs(json);
+      setLogs(json);
     } catch (error) {
       console.error("Error fetching logs:", error);
       setError(error.message);
@@ -71,7 +70,6 @@ const ExerciseLogForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(exerciseLog);
 
     try {
       const response = await axios.post(
@@ -109,7 +107,6 @@ const ExerciseLogForm = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.data;
-
       setSuccess(json);
       fetchLog();
     } catch (error) {
