@@ -8,6 +8,7 @@ import Signup from "./components/Signup.jsx";
 import Home from "./components/Home.jsx";
 import Track from "./components/Track.jsx";
 import Recommendation from "./components/Recommendation.jsx";
+import Admin from "./components/Admin.jsx";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="track" element={<Track />} />
           <Route path="/recommend" element={<Recommendation />} />
         </Routes>

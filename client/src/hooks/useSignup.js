@@ -13,7 +13,7 @@ export const useSignup = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.post("/signup", { name, email, password });
+      const response = await axios.post("/user/signup", { name, email, password });
       const json = await response.data;
 
       localStorage.setItem("user", JSON.stringify(json));

@@ -13,7 +13,7 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.post("/login", { email, password });
+      const response = await axios.post("/user/login", { email, password });
       const json = await response.data;
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });

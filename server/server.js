@@ -15,8 +15,10 @@ app.use(cookieParser());
 connectDB();
 const port = 5000;
 
-app.use("/", require("./routes/userRouter"));
+app.use("/user", require("./routes/userRouter"));
 app.use("/log", require("./routes/exerciseLogRouter"));
+app.use("/product", require("./routes/productRouter"));
+app.use("/order", require("./routes/orderRouter"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);
