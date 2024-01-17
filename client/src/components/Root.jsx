@@ -7,7 +7,11 @@ const Root = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("user")) navigate("/home");
+    const user = localStorage.getItem("user");
+    if (user) {
+      if (JSON.parse(user).role === "user") navigate("/home");
+      else navigate("/admin");
+    }
 
     const fetchQuote = async () => {
       const response = await fetch(
