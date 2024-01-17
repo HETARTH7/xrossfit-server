@@ -67,7 +67,7 @@ const updateUser = async (req, res) => {
       { $set: { address, phone, age, height, weight, gender } }
     );
 
-    res.status(200).json({ message: "User updated" });
+    res.status(200).json("Your details have been updated successfully");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

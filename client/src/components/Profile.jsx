@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Navbar from "./Navbar";
+import Error from "./Error";
+import Success from "./Success";
+import axios from "../api/axios";
 
 const Profile = () => {
   const { user } = useAuthContext();
-  const { dispatch } = useAuthContext();
+  const [userInfo, setUserInfo] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editedInfo, setEditedInfo] = useState({
     address: "",
@@ -15,32 +18,35 @@ const Profile = () => {
     weight: "",
   });
 
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await axios.get(`/user/${user.id}`);
+      const json = await response.data;
+      setUserInfo(json);
+    } catch (error) {
+      setError(error.message);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) fetchUser();
+  }, [user, fetchUser]);
+
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
   const handleEditClick = () => {
     setEditMode(true);
   };
 
   const handleSaveClick = async () => {
-    const response = await fetch(`http://localhost:5000/user/${user.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(editedInfo),
-    });
-
-    if (response.ok) {
-      const json = { ...user, ...editedInfo };
-      user.address = editedInfo.address;
-      user.phone = editedInfo.phone;
-      user.age = editedInfo.age;
-      user.gender = editedInfo.gender;
-      user.height = editedInfo.height;
-      user.weight = editedInfo.weight;
-      dispatch({ type: "LOGIN", payload: json });
-      localStorage.setItem("user", JSON.stringify(json));
-      setEditMode(false);
-    } else {
-      console.error("Failed to update user information");
+    try {
+      const response = await axios.put(`/user/${user.id}`, editedInfo);
+      const json = await response.data;
+      setSuccess(json);
+      fetchUser();
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -55,6 +61,8 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
+      {error && <Error message={error} />}
+      {success && <Success message={success} />}
       <div className="container mt-4">
         {user ? (
           <div>
@@ -65,7 +73,7 @@ const Profile = () => {
             <div className="mb-3">
               <strong>Email:</strong> {user.email}
             </div>
-            {!user.address && !editMode ? (
+            {!userInfo.address && !editMode ? (
               <div className="mb-3">
                 <button
                   className="btn rounded"
@@ -80,7 +88,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Address:</strong>{" "}
                   {!editMode ? (
-                    user.address
+                    userInfo.address
                   ) : (
                     <textarea
                       className="form-control"
@@ -93,7 +101,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Phone:</strong>{" "}
                   {!editMode ? (
-                    user.phone
+                    userInfo.phone
                   ) : (
                     <input
                       className="form-control"
@@ -107,7 +115,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Gender:</strong>{" "}
                   {!editMode ? (
-                    user.gender
+                    userInfo.gender
                   ) : (
                     <select
                       className="form-control"
@@ -125,7 +133,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Age:</strong>{" "}
                   {!editMode ? (
-                    user.age
+                    userInfo.age
                   ) : (
                     <input
                       className="form-control"
@@ -139,7 +147,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Height:</strong>{" "}
                   {!editMode ? (
-                    user.height
+                    userInfo.height
                   ) : (
                     <input
                       className="form-control"
@@ -153,7 +161,7 @@ const Profile = () => {
                 <div className="mb-3">
                   <strong>Weight:</strong>{" "}
                   {!editMode ? (
-                    user.weight
+                    userInfo.weight
                   ) : (
                     <input
                       className="form-control"
