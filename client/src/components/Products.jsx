@@ -49,19 +49,16 @@ const Product = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/product", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: JSON.stringify(newProduct),
-    });
+    try {
+      const response = await axios.post("/product", newProduct, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    const json = await response.json();
+      const json = await response.data;
 
-    if (response.ok) {
-      console.log(json);
+      setSuccess(json);
       setNewProduct({
         name: "",
         description: "",
@@ -70,6 +67,8 @@ const Product = () => {
         productImage: "",
         category: "",
       });
+    } catch (error) {
+      setError(error.message);
     }
   };
 
