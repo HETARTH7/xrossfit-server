@@ -19,6 +19,7 @@ app.use("/user", require("./routes/userRouter"));
 app.use("/log", require("./routes/exerciseLogRouter"));
 app.use("/product", require("./routes/productRouter"));
 app.use("/order", require("./routes/orderRouter"));
+app.use("/friend", require("./routes/friendRequestRouter"));
 
 app.listen(port, () => {
   console.log(`listenting at port ${port}`);

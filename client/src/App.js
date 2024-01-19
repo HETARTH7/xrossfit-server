@@ -12,6 +12,7 @@ import Shop from "./components/Shop.jsx";
 import Cart from "./components/Cart.jsx";
 import Recommendation from "./components/Recommendation.jsx";
 import Profile from "./components/Profile.jsx";
+import Chat from "./components/Chat.jsx";
 
 const App = () => {
   return (
@@ -27,7 +28,8 @@ const App = () => {
           <Route path="/shop" element={<Shop />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/recommend" element={<Recommendation />} />
-          <Route path="/:email" element={<Profile />} />
+          <Route path="/:name" element={<Profile />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </div>
