@@ -4,9 +4,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "../api/axios";
 import Error from "./Error";
 import Success from "./Success";
+import Messages from "./Messages";
 
 const Chat = () => {
   const { user } = useAuthContext();
+  const [chat, setChat] = useState("");
 
   const [friends, setFriends] = useState([]);
 
@@ -108,63 +110,118 @@ const Chat = () => {
       <Navbar />
       {error && <Error message={error} />}
       {success && <Success message={success} />}
-      {friends.map((friend, index) => {
-        return <div key={index}>{friend}</div>;
-      })}
-      <button onClick={() => setShowUsers(true)}>Find</button>
-      <button onClick={() => setShowRequests(true)}>Requests</button>
-      {showUsers && (
-        <div>
-          <button
-            onClick={() => setShowUsers(false)}
-            className="btn-close float-end"
-          ></button>
-          <h2>Users</h2>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search users"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
+      <div className={`row m-0 ${showUsers || showRequests ? "modal" : ""}`}>
+        <div className="col-3">
+          {friends.map((friend, index) => {
+            return (
+              <button
+                onClick={() => setChat(friend)}
+                key={index}
+                className="p-3 btn"
+              >
+                {friend}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="col-9">
+          <div className="text-end mt-2">
+            <button className="btn me-2" onClick={() => setShowUsers(true)}>
+              Find
+            </button>
+            <button className="btn" onClick={() => setShowRequests(true)}>
+              Requests
+            </button>
           </div>
-          <ul className="list-group">
-            {filteredUsers.map((user, index) => (
-              <li key={index} className="list-group-item">
-                {user}
-                <button
-                  disabled={sent.includes(user)}
-                  onClick={() => sendFriendRequest(user)}
+
+          <div>{user ? <Messages user1={user.name} user2={chat} /> : null}</div>
+        </div>
+      </div>
+
+      {showUsers && (
+        <div className="w-25 modal-dialog">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <button
+                type="button"
+                onClick={() => setShowUsers(false)}
+                className="btn-close float-end"
+              ></button>
+              <div className="modal-header"></div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search users"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+                <div
+                  className="list-group"
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
                 >
-                  Send
-                </button>
-              </li>
-            ))}
-          </ul>
+                  {filteredUsers.map((user, index) => (
+                    <p key={index} className="list-group-item">
+                      {user}
+                      <button
+                        className="btn float-end"
+                        disabled={sent.includes(user)}
+                        onClick={() => sendFriendRequest(user)}
+                      >
+                        Send
+                      </button>
+                    </p>
+                  ))}
+                </div>
+                {!filteredUsers.length ? "No users" : null}
+              </div>
+            </div>
+          </div>
         </div>
       )}
+
       {showRequests && (
-        <div>
-          <button
-            onClick={() => setShowRequests(false)}
-            className="btn-close float-end"
-          ></button>
-          <ul className="list-group">
-            {received.map((request, index) => {
-              return (
-                <li key={index} className="list-group-item">
-                  {request.sender}
-                  <button onClick={() => acceptRequest(request._id)}>
-                    Accept
-                  </button>
-                  <button onClick={() => declineRequest(request._id)}>
-                    Decline
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+        <div className="w-25 modal-dialog">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button
+                  onClick={() => setShowRequests(false)}
+                  className="btn-close float-end"
+                ></button>
+              </div>
+              <div
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                className="model-body"
+              >
+                <ul className="list-group">
+                  {received.map((request, index) => {
+                    return (
+                      <li key={index} className="list-group-item">
+                        {request.sender}
+                        <button
+                          className="btn"
+                          onClick={() => acceptRequest(request._id)}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="btn"
+                          onClick={() => declineRequest(request._id)}
+                        >
+                          Decline
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {!received.length ? "No new requests" : null}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

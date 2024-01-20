@@ -63,13 +63,15 @@ const Navbar = () => {
             </ul>
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item">
-                <img
-                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                  alt=""
-                  height={"40px"}
-                  className="m-2 me-4 rounded-pill"
-                  onClick={getProfile}
-                />
+                <button className="btn m-0 p-0">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    alt=""
+                    height={"40px"}
+                    className="m-2 me-4 rounded-pill"
+                    onClick={getProfile}
+                  />
+                </button>
               </li>
 
               <li className="nav-item nav-link">
