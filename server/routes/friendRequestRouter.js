@@ -7,6 +7,9 @@ const {
 
 const router = require("express").Router();
 
+// const requireAuth = require("../middleware/requireAuth");
+// router.use(requireAuth);
+
 router.get("/", fetchRequests);
 router.post("/", sendRequest);
 router.put("/:id", acceptRequest);

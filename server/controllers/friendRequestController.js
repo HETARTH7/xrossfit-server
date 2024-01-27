@@ -1,5 +1,6 @@
 const FriendRequest = require("../models/friendRequestModel");
 const User = require("../models/userModel");
+const Chat = require("../models/chatModels");
 
 const fetchRequests = async (req, res) => {
   try {
@@ -31,7 +32,8 @@ const acceptRequest = async (req, res) => {
     await sender.save();
     await receiver.save();
     await FriendRequest.findByIdAndDelete(id);
-
+    const chat = new Chat({ sender: sender.name, receiver: receiver.name });
+    await chat.save();
     res.status(200).json("Friend Request Accepted");
   } catch (error) {
     res.status(500).json({ message: error.message });

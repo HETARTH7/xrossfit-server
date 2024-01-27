@@ -26,7 +26,11 @@ const Chat = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get("/friend");
+        const response = await axios.get("/friend", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.data;
         setSent(
           json.filter((x) => x.sender === user.name).map((y) => y.receiver)
@@ -39,7 +43,11 @@ const Chat = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await axios(`/user/${user.id}`);
+        const response = await axios(`/user/${user.id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.data;
         setFriends(json.friendsList);
       } catch (error) {
@@ -49,7 +57,11 @@ const Chat = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("/user");
+        const response = await axios.get("/user", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const json = await response.data;
         setUsers(json.filter((x) => x !== user.name && !friends.includes(x)));
       } catch (error) {
@@ -74,10 +86,18 @@ const Chat = () => {
 
   const sendFriendRequest = async (receiver) => {
     try {
-      const response = await axios.post("/friend", {
-        sender: user.name,
-        receiver,
-      });
+      const response = await axios.post(
+        "/friend",
+        {
+          sender: user.name,
+          receiver,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.data;
       setSuccess(json);
     } catch (error) {
@@ -87,7 +107,11 @@ const Chat = () => {
 
   const acceptRequest = async (id) => {
     try {
-      const response = await axios.put(`/friend/${id}`);
+      const response = await axios.put(`/friend/${id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.data;
       setSuccess(json);
     } catch (error) {
@@ -97,7 +121,11 @@ const Chat = () => {
 
   const declineRequest = async (id) => {
     try {
-      const response = await axios.delete(`/friend/${id}`);
+      const response = await axios.delete(`/friend/${id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.data;
       setSuccess(json);
     } catch (error) {
