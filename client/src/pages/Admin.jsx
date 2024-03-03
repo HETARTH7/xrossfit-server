@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogout } from "../hooks/useLogout";
+import { useLogout } from "../utils/useLogout";
 
 import Charts from "./Charts";
 import Users from "./Users";

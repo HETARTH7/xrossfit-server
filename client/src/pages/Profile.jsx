@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../utils/useAuthContext";
 import Navbar from "./Navbar";
 import Error from "./Error";
 import Success from "./Success";

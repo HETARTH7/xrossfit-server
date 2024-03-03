@@ -14,6 +14,7 @@ export const authReducer = (state, action) => {
 };
 
 export const AuthContextProvider = ({ children }) => {
+  let currentLocation = window.location;
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
@@ -23,8 +24,15 @@ export const AuthContextProvider = ({ children }) => {
 
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
+    } else if (
+      currentLocation.pathname !== "/" &&
+      currentLocation.pathname !== "/login" &&
+      currentLocation.pathname !== "signup"
+    ) {
+      window.location.href = "/";
+      console.log(currentLocation.pathname);
     }
-  }, []);
+  }, [currentLocation.pathname]);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

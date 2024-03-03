@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../utils/useAuthContext";
 import Error from "./Error";
 import Success from "./Success";
 import axios from "../api/axios";

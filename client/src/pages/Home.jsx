@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../utils/useAuthContext";
 import Navbar from "./Navbar";
 import axios from "../api/axios";
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Product from "./Product";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../utils/useAuthContext";
 import Error from "./Error";
 import axios from "../api/axios";
 

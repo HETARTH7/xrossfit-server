@@ -2,17 +2,17 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/Login.jsx";
-import Signup from "./components/Signup.jsx";
-import Root from "./components/Root.jsx";
-import Home from "./components/Home.jsx";
-import Track from "./components/Track.jsx";
-import Admin from "./components/Admin.jsx";
-import Shop from "./components/Shop.jsx";
-import Cart from "./components/Cart.jsx";
-import Recommendation from "./components/Recommendation.jsx";
-import Profile from "./components/Profile.jsx";
-import Chat from "./components/Chat.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
+import Root from "./pages/Root.jsx";
+import Home from "./pages/Home.jsx";
+import Track from "./pages/Track.jsx";
+import Admin from "./pages/Admin.jsx";
+import Shop from "./pages/Shop.jsx";
+import Cart from "./pages/Cart.jsx";
+import Recommendation from "./pages/Recommendation.jsx";
+import Profile from "./pages/Profile.jsx";
+import Chat from "./pages/Chat.jsx";
 
 const App = () => {
   return (
