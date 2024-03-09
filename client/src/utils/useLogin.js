@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import axios from "axios";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ export const useLogin = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.post("/user/login", { email, password });
+      const response = await axios.post("https://xrossfit.onrender.com/user/login", { email, password });
       const json = await response.data;
       localStorage.setItem("user", JSON.stringify(json));
       dispatch({ type: "LOGIN", payload: json });

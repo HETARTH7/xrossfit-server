@@ -4,7 +4,7 @@ let url;
 if (process.env.API_URL) {
   url = process.env.API_URL;
 } else {
-  url = "http://localhost:5000";
+  url = "https://xrossfit.onrender.com";
 }
 
 export default axios.create({
