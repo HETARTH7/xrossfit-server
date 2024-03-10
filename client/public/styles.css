@@ -4,10 +4,12 @@
 
 .title {
   font-size: 300px;
+  font-style: italic;
 }
 
 @media (max-width: 768px) {
   .title {
     font-size: 80px;
+    margin-bottom: 80px;
   }
 }

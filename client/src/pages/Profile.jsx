@@ -65,7 +65,7 @@ const Profile = () => {
       {success && <Success message={success} />}
       <div className="container mt-4">
         {user ? (
-          <div>
+          <form onSubmit={() => handleSaveClick()}>
             <h2>Your Profile</h2>
             <div className="mb-3 mt-5">
               <strong>Name:</strong> {user.name}
@@ -176,14 +176,14 @@ const Profile = () => {
                   <button
                     className="btn rounded"
                     style={{ background: "#96f2d7" }}
-                    onClick={() => handleSaveClick()}
+                    type="submit"
                   >
                     Save Changes
                   </button>
                 )}
               </>
             )}
-          </div>
+          </form>
         ) : (
           <p>Loading user information...</p>
         )}
