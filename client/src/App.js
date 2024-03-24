@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
-import Root from "./pages/Root.jsx";
+import Xrossfit from "./pages/Xrossfit.jsx";
 import Home from "./pages/Home.jsx";
 import Track from "./pages/Track.jsx";
 import Admin from "./pages/Admin.jsx";
@@ -19,7 +19,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Root />} />
+          <Route path="/" element={<Xrossfit />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home" element={<Home />} />

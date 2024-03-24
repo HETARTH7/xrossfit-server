@@ -5,28 +5,9 @@ import axios from "../api/axios";
 import Error from "./Error";
 import Success from "./Success";
 
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
 const ExerciseLogForm = () => {
   const { user } = useAuthContext();
   const [logs, setLogs] = useState([]);
-  const date = new Date();
-  const today = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear();
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -38,7 +19,6 @@ const ExerciseLogForm = () => {
     repetitions: null,
     caloricBurn: null,
     notes: "-",
-    date: today + " " + months[parseInt(month)] + " " + year,
   });
 
   const handleChange = (e) => {

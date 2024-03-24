@@ -1,11 +1,32 @@
 const ExerciseLog = require("../models/exerciseLogModel");
 
+const date = new Date();
+const today = date.getDate();
+const month = date.getMonth();
+const year = date.getFullYear();
+
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 const addLog = async (req, res) => {
   try {
     const { user, exerciseLog } = req.body;
     const newLog = ExerciseLog({
       user,
       ...exerciseLog,
+      date: today + " " + months[parseInt(month)] + " " + year,
     });
     newLog.save();
 

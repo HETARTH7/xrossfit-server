@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Root = () => {
+const Xrossfit = () => {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
   const navigate = useNavigate();
@@ -50,4 +50,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default Xrossfit;
