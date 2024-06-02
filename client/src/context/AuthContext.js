@@ -30,7 +30,6 @@ export const AuthContextProvider = ({ children }) => {
       currentLocation.pathname !== "signup"
     ) {
       window.location.href = "/";
-      console.log(currentLocation.pathname);
     }
   }, [currentLocation.pathname]);
 

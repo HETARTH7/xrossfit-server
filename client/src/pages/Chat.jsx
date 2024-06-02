@@ -139,18 +139,20 @@ const Chat = () => {
       {error && <Error message={error} />}
       {success && <Success message={success} />}
       <div className={`row m-0 ${showUsers || showRequests ? "modal" : ""}`}>
-        <div className="col-3">
-          {friends.map((friend, index) => {
-            return (
-              <button
-                onClick={() => setChat(friend)}
-                key={index}
-                className="p-3 btn"
-              >
-                {friend}
-              </button>
-            );
-          })}
+        <div className="col-2">
+          <div className="row">
+            {friends.map((friend, index) => {
+              return (
+                <button
+                  onClick={() => setChat(friend)}
+                  key={index}
+                  className="p-3 btn"
+                >
+                  {friend}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="col-9">

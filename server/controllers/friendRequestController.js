@@ -32,7 +32,7 @@ const acceptRequest = async (req, res) => {
     await sender.save();
     await receiver.save();
     await FriendRequest.findByIdAndDelete(id);
-    const chat = new Chat({ sender: sender.name, receiver: receiver.name });
+    const chat = new Chat({ user1: sender.name, user2: receiver.name });
     await chat.save();
     res.status(200).json("Friend Request Accepted");
   } catch (error) {

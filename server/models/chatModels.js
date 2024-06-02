@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const chatSchema = new mongoose.Schema({
-  sender: { type: String },
-  receiver: { type: String },
+  user1: { type: String },
+  user2: { type: String },
 });
 
 const Chat = new mongoose.model("Chat", chatSchema);
