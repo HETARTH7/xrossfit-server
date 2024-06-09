@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSignup } from "../utils/useSignup";
 import { Link } from "react-router-dom";
-import Error from "./Error";
+import Error from "../components/Error";
 
 const Signup = () => {
   const [name, setName] = useState("");

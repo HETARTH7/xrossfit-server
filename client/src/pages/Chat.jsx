@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import { useAuthContext } from "../utils/useAuthContext";
 import axios from "../api/axios";
-import Error from "./Error";
-import Success from "./Success";
-import Messages from "./Messages";
+import Error from "../components/Error";
+import Success from "../components/Success";
+import Messages from "../components/Messages";
 
 const Chat = () => {
   const { user } = useAuthContext();

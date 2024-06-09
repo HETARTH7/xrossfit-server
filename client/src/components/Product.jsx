@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../utils/useAuthContext";
-import Error from "./Error";
-import Success from "./Success";
+import Error from "../components/Error";
+import Success from "../components/Success";
 import axios from "../api/axios";
 
 const Product = ({ data, onClose }) => {

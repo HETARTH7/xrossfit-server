@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import Product from "./Product";
+import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../utils/useAuthContext";
-import Error from "./Error";
+import Error from "../components/Error";
 import axios from "../api/axios";
+import Product from "../components/Product";
 
 const Shop = () => {
   const { user } = useAuthContext();

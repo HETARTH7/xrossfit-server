@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useAuthContext } from "../utils/useAuthContext";
-import Navbar from "./Navbar";
-import Error from "./Error";
-import Success from "./Success";
+import Navbar from "../components/Navbar";
+import Error from "../components/Error";
+import Success from "../components/Success";
 import axios from "../api/axios";
 
 const Cart = () => {

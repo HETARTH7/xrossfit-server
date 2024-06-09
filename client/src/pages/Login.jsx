@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLogin } from "../utils/useLogin";
 import { Link } from "react-router-dom";
-import Error from "./Error";
+import Error from "../components/Error";
 
 const Login = () => {
   const [email, setEmail] = useState("");
