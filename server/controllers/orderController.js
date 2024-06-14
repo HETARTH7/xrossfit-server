@@ -1,5 +1,7 @@
 const Order = require("../models/orderModel");
 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const getCart = async (req, res) => {
   try {
     const { user } = req.params;

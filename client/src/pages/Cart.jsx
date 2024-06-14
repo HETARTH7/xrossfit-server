@@ -113,6 +113,7 @@ const Cart = () => {
       setError(error.message);
     }
   };
+  console.log(process.env.REACT_APP_STRIPE_KEY);
 
   return (
     <div>
@@ -153,8 +154,10 @@ const Cart = () => {
           <div className="mt-3">
             <strong>Total:</strong> ₹{order.totalPrice}
           </div>
-          <button onClick={checkout}>Pay</button>
-          <Stripe />
+          <Stripe
+            token={checkout}
+            stripeKey="pk_test_51ONYMRSDE8rC4k6ZWV1YOtKZz0UWgQ1XLrpD2vd5QRPIji4Q0z189Vo6gBXSTmS9GtnLkBISNROqaFCCGA4HjBfM00MlxfaaZx"
+          />
         </div>
       ) : (
         <p>Your Cart is empty</p>
