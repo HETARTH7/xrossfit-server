@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Error from "../components/Error";
 import Success from "../components/Success";
 import axios from "../api/axios";
+import Stripe from "react-stripe-checkout";
 
 const Cart = () => {
   const { user } = useAuthContext();
@@ -153,6 +154,7 @@ const Cart = () => {
             <strong>Total:</strong> ₹{order.totalPrice}
           </div>
           <button onClick={checkout}>Pay</button>
+          <Stripe />
         </div>
       ) : (
         <p>Your Cart is empty</p>
