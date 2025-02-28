@@ -1,6 +1,6 @@
 const allowedOrigins = [
     "http://localhost:3000",
-    "https://xross-fit.vercel.app",
+    "https://xrossfit.vercel.app",
   ];
   
   module.exports = allowedOrigins;

@@ -7,9 +7,10 @@ const {
   getFriends,
   getChats,
   getUserProfile,
-  updateUserProfile,
   getFollowings,
   getUsers,
+  updatePhoneNumber,
+  addAddress,
 } = require("../controllers/userContoller");
 const router = require("express").Router();
 
@@ -22,7 +23,8 @@ router.get("/friends/:_id", getFriends);
 router.get("/chats/:_id", getChats);
 router.get("/followings/:_id", getFollowings);
 router.get("/profile/:_id", getUserProfile);
-router.put("/profile/update/:_id", updateUserProfile);
+router.put("/profile/update/phone/:_id", updatePhoneNumber);
+router.post("/profile/add/address/:_id", addAddress);
 router.get("/search", getUsers);
 
 module.exports = router;

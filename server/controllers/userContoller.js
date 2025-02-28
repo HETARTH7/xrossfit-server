@@ -228,7 +228,7 @@ const getUserProfile = async (req, res) => {
       email: user.email,
       name: user.name,
       phone: user.phone,
-      address: user.address,
+      addresses: user.addresses,
     };
     res.status(200).json(profile);
   } catch (error) {
@@ -236,12 +236,45 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-const updateUserProfile = async (req, res) => {
+const updatePhoneNumber = async (req, res) => {
   try {
     const { _id } = req.params;
-    const { phone, address } = req.body;
-    const updatedUser = await User.findByIdAndUpdate(_id, { phone, address });
-    res.status(200).json({ message: "Profile Updated", user: updatedUser });
+    const { phone } = req.body;
+    await User.findByIdAndUpdate(_id, { phone });
+    res.status(200).json({ message: "Profile Updated" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const addAddress = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { address } = req.body;
+    await User.findByIdAndUpdate(_id, { $push: { address: address } });
+    res.status(200).json({ message: "Profile Updated" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteAddress = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { address } = req.body;
+    await User.findByIdAndUpdate(_id, { $pull: { address: address } });
+    res.status(200).json({ message: "Address Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateAddress = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { address } = req.body;
+    await User.findByIdAndUpdate(_id, { $pull: { address: address } });
+    res.status(200).json({ message: "Address Deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -270,6 +303,9 @@ module.exports = {
   getChats,
   getFollowings,
   getUserProfile,
-  updateUserProfile,
+  updatePhoneNumber,
+  addAddress,
+  deleteAddress,
+  updateAddress,
   getUsers,
 };
