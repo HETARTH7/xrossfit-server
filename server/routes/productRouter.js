@@ -1,16 +1,15 @@
 const {
-  getProduct,
   addProduct,
-  updateRatings,
+  getProducts,
+  updateProduct,
+  getProductById,
 } = require("../controllers/productController");
 
-const requireAuth = require("../middleware/requireAuth");
 const router = require("express").Router();
 
-router.use(requireAuth);
-
-router.get("/", getProduct);
-router.post("/", addProduct);
-router.put("/:id", updateRatings);
+router.post("/add", addProduct);
+router.get("/:_id", getProductById);
+router.get("/", getProducts);
+router.put("/update/:_id", updateProduct);
 
 module.exports = router;

@@ -1,10 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/dbConfig");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 require("dotenv").config();
+const connectDB = require("./config/dbConfig");
 const cookieParser = require("cookie-parser");
+const { verifyAuthToken } = require("./middleware/verifyAuthToken");
 
 const app = express();
 app.use(credentials);
@@ -13,17 +14,23 @@ app.use(express.json());
 app.use(cookieParser());
 
 connectDB();
-const port = 5000;
+const PORT = 5000;
 
 app.use("/user", require("./routes/userRouter"));
-app.use("/log", require("./routes/exerciseLogRouter"));
-app.use("/product", require("./routes/productRouter"));
-app.use("/order", require("./routes/orderRouter"));
-app.use("/friend", require("./routes/friendRequestRouter"));
-app.use("/chat", require("./routes/messagesRouter"));
 
-const server = app.listen(port, () => {
-  console.log(`listenting at port ${port}`);
+app.use(verifyAuthToken);
+app.use("/exercise", require("./routes/exerciseRouter"));
+app.use("/product", require("./routes/productRouter"));
+app.use("/friend", require("./routes/friendRouter"));
+app.use("/chat", require("./routes/chatRouter"));
+app.use("/message", require("./routes/messageRouter"));
+app.use("/coupon", require("./routes/couponRouter"));
+app.use("/cart", require("./routes/cartRouter"));
+app.use("/order", require("./routes/orderRouter"));
+app.use("/post", require("./routes/blogPostRouter"));
+
+const server = app.listen(PORT, () => {
+  console.log(`listenting at port ${PORT}`);
 });
 
 const io = require("socket.io")(server, {

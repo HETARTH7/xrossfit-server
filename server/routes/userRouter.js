@@ -1,17 +1,28 @@
 const {
+  createUser,
   loginUser,
-  signupUser,
+  refreshToken,
+  isEmailPresent,
+  forgotPassword,
+  getFriends,
+  getChats,
+  getUserProfile,
+  updateUserProfile,
+  getFollowings,
   getUsers,
-  updateUser,
-  getUser,
-} = require("../controllers/userController");
-
+} = require("../controllers/userContoller");
 const router = require("express").Router();
 
-router.get("/", getUsers);
-router.get("/:id", getUser);
+router.post("/signup", createUser);
 router.post("/login", loginUser);
-router.post("/signup", signupUser);
-router.put("/:id", updateUser);
+router.get("/refresh", refreshToken);
+router.get("/is-user/:email", isEmailPresent);
+router.put("/forgot-password", forgotPassword);
+router.get("/friends/:_id", getFriends);
+router.get("/chats/:_id", getChats);
+router.get("/followings/:_id", getFollowings);
+router.get("/profile/:_id", getUserProfile);
+router.put("/profile/update/:_id", updateUserProfile);
+router.get("/search", getUsers);
 
 module.exports = router;

@@ -1,93 +1,235 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useLogout } from "../utils/useLogout";
-import { useAuthContext } from "../utils/useAuthContext";
+import React, { useEffect } from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box";
+import Link from "next/link";
+import { useState } from "react";
+import { AccountCircleOutlined } from "@mui/icons-material";
+import { useLogout } from "@/utils/useLogout";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/utils/useAuthContext";
+import {
+  Input,
+  List,
+  ListItem,
+  ListItemButton,
+  Paper,
+  Popper,
+} from "@mui/material";
+import { ToastError } from "@/utils/toast-error";
+import { ToastContainer } from "react-toastify";
+import axios from "@/api/axios";
 
 const Navbar = () => {
-  const { user } = useAuthContext();
+  const [anchorEl, setAnchorEl] = useState(null);
   const { logout } = useLogout();
-  const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const router = useRouter();
+  const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchAnchorEl, setSearchAnchorEl] = useState(null);
 
-  const handleClick = () => {
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const logoutBtnClick = () => {
     logout();
-    navigate("/");
+    router.push("/");
   };
 
-  const getProfile = async () => {
-    navigate(`/${user.name}`);
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await axios.get("/user/search", {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        const json = await response.data;
+        setUsers(json);
+      } catch (error) {
+        ToastError(error);
+      }
+    };
+    if (user) getUsers();
+  }, [user]);
+
+  const filteredUsers = users.filter((u) =>
+    u.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setSearchAnchorEl(e.currentTarget);
   };
+
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container-fluid">
-          <Link
-            style={{ color: "#099268" }}
-            className="navbar-brand fs-2 fw-bold"
-            to={"/home"}
-          >
-            Xrossfit
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item ms-4">
-                <Link className="nav-link" aria-current="page" to="/track">
-                  Track
-                </Link>
-              </li>
-              <li className="nav-item ms-4">
-                <Link className="nav-link" to="/shop">
-                  Shop
-                </Link>
-              </li>
-              <li className="nav-item ms-4">
-                <Link className="nav-link" to="/recommend">
-                  Get recommendation
-                </Link>
-              </li>
-              <li className="nav-item ms-4">
-                <Link className="nav-link" aria-current="page" to="/chat">
-                  Chat
-                </Link>
-              </li>
-            </ul>
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              <li className="nav-item">
-                <button className="btn m-0 p-0">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    alt=""
-                    height={"40px"}
-                    className="m-2 me-4 rounded-pill"
-                    onClick={getProfile}
-                  />
-                </button>
-              </li>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#fff",
+        color: "#000",
+        boxShadow: "none",
+        borderBottom: "1px solid #ddd",
+      }}
+    >
+      <Toolbar sx={{ padding: 0 }}>
+        <ToastContainer />
 
-              <li className="nav-item nav-link">
-                <button
-                  style={{ background: "#96f2d7" }}
-                  className="btn rounded"
-                  onClick={handleClick}
-                >
-                  Log out
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
+        {/* Left Section - Flex Grow to Take Space */}
+        <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ display: { xs: "block", md: "none" } }}
+            onClick={handleMenuOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          {/* Mobile Menu */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            {/* Mobile Links */}
+            <MenuItem onClick={handleMenuClose}>
+              <Link
+                href="/home"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Home
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <Link
+                href="/recommendation"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Recommendation
+              </Link>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <Link
+                href="/shop"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Shop
+              </Link>
+            </MenuItem>
+          </Menu>
+
+          {/* Desktop Links */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+            <Button color="inherit" sx={{ textTransform: "none" }}>
+              <Link
+                href="/home"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Home
+              </Link>
+            </Button>
+            <Button color="inherit" sx={{ textTransform: "none" }}>
+              <Link
+                href="/blog"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Blog
+              </Link>
+            </Button>
+            <Button color="inherit" sx={{ textTransform: "none" }}>
+              <Link
+                href="/recommendation"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Recommendation
+              </Link>
+            </Button>
+            <Button color="inherit" sx={{ textTransform: "none" }}>
+              <Link
+                href="/shop"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Shop
+              </Link>
+            </Button>
+          </Box>
+        </Box>
+
+        <Box className="flex items-center gap-2 relative">
+          <Input
+            placeholder="Search users"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+          {searchTerm && filteredUsers.length > 0 && (
+            <Popper
+              open={Boolean(filteredUsers.length && searchTerm)}
+              anchorEl={searchAnchorEl}
+              placement="bottom-start"
+              className="z-50"
+            >
+              <Paper className="shadow-lg border border-gray-200 mt-1 rounded">
+                <List className="w-48 bg-white">
+                  {filteredUsers.map((user) => (
+                    <ListItem key={user.id} className="p-0">
+                      <Link
+                        href={`/profile/${user.id}`}
+                        passHref
+                        legacyBehavior
+                      >
+                        <ListItemButton
+                          component="a"
+                          className="hover:bg-gray-100"
+                        >
+                          {user.name}
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+            </Popper>
+          )}
+
+          <Button
+            variant="outlined"
+            color="inherit"
+            sx={{ textTransform: "none", borderColor: "#000" }}
+            onClick={logoutBtnClick}
+          >
+            Logout
+          </Button>
+          {user && (
+            <IconButton>
+              <Link href={`/profile/${user.userId}`} passHref legacyBehavior>
+                <a>
+                  <AccountCircleOutlined />
+                </a>
+              </Link>
+            </IconButton>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
