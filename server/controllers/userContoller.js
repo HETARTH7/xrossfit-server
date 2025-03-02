@@ -79,7 +79,6 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       const fieldValidationError = new Error("All fields must be filled");
       fieldValidationError.name = "FieldValidationError";
@@ -91,6 +90,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       const userNotFoundError = new Error("User not found");
       userNotFoundError.name = "UserNotFoundError";
+      throw userNotFoundError;
     }
 
     const match = await bcrypt.compare(password, user.password);
@@ -250,8 +250,12 @@ const updatePhoneNumber = async (req, res) => {
 const addAddress = async (req, res) => {
   try {
     const { _id } = req.params;
-    const { address } = req.body;
-    await User.findByIdAndUpdate(_id, { $push: { address: address } });
+    const { name, location } = req.body;
+    console.log(req.body);
+
+    await User.findByIdAndUpdate(_id, {
+      $push: { addresses: { name, location } },
+    });
     res.status(200).json({ message: "Profile Updated" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -262,18 +266,18 @@ const deleteAddress = async (req, res) => {
   try {
     const { _id } = req.params;
     const { address } = req.body;
-    await User.findByIdAndUpdate(_id, { $pull: { address: address } });
-    res.status(200).json({ message: "Address Deleted" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const updateAddress = async (req, res) => {
-  try {
-    const { _id } = req.params;
-    const { address } = req.body;
-    await User.findByIdAndUpdate(_id, { $pull: { address: address } });
+    await User.updateOne(
+      {
+        _id,
+        "addresses.name": address.name,
+        "addresses.location": address.location,
+      },
+      {
+        $pull: {
+          addresses: { name: address.name, location: address.location },
+        },
+      }
+    );
     res.status(200).json({ message: "Address Deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -306,6 +310,5 @@ module.exports = {
   updatePhoneNumber,
   addAddress,
   deleteAddress,
-  updateAddress,
   getUsers,
 };

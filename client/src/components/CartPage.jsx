@@ -16,6 +16,10 @@ import {
   Box,
   Divider,
   CircularProgress,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StripeCheckout from "react-stripe-checkout";
@@ -25,7 +29,8 @@ import { ToastError } from "@/utils/toast-error";
 const CartPage = () => {
   const { user } = useAuthContext();
   const [cart, setCart] = useState([]);
-  const [address, setAddress] = useState("");
+  const [addresses, setAddresses] = useState([]);
+  const [shipmentAddress, setShipmentAddress] = useState("");
   const [loading, setLoading] = useState(true);
   const deliveryCharge = 100;
   const router = useRouter();
@@ -38,7 +43,7 @@ const CartPage = () => {
             Authorization: `Bearer ${user.token}`,
           },
         });
-        setAddress(response.data.address);
+        setAddresses(response.data.addresses);
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to load profile");
       } finally {
@@ -138,7 +143,7 @@ const CartPage = () => {
       return;
     }
 
-    if (!address) {
+    if (!shipmentAddress) {
       toast.error("Please update your address before placing an order.");
       return;
     }
@@ -149,7 +154,7 @@ const CartPage = () => {
         product: item.productID._id,
         effectivePrice: item.productID.price,
         quantity: item.quantity,
-        address: address,
+        address: shipmentAddress,
       }));
 
       const responses = await Promise.all(
@@ -241,12 +246,29 @@ const CartPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Typography className="mt-4">
-              Address:{" "}
-              {address.length
-                ? address
-                : "You haven't added your address. Please update your address through your profile page."}
-            </Typography>
+            <div className="mt-6">
+              <Typography variant="h6">Select Shipping Address</Typography>
+              <FormControl fullWidth className="mt-2">
+                <InputLabel>Select Address</InputLabel>
+                <Select
+                  value={shipmentAddress}
+                  onChange={(e) => setShipmentAddress(e.target.value)}
+                  className="bg-white"
+                >
+                  {addresses.map((address, idx) => (
+                    <MenuItem key={idx} value={address.location}>
+                      {address.name} - {address.location}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {addresses.length === 0 && (
+                <Typography className="mt-2 text-red-500">
+                  No addresses found. Please add an address in your profile
+                  page.
+                </Typography>
+              )}
+            </div>
           </div>
 
           <div className="bg-white shadow-lg rounded-lg p-6">
