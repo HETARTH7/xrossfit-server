@@ -29,20 +29,20 @@ const ProfilePage = () => {
 
   const isOwner = user?.userId === params?.slug;
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.get(`/user/profile/${params.slug}`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        setProfile(response.data);
-      } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to load profile");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`/user/profile/${params.slug}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      setProfile(response.data);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to load profile");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (user && params) fetchProfile();
   }, [user]);
 
@@ -65,6 +65,7 @@ const ProfilePage = () => {
       );
       const json = await response.data;
       toast.success(json.message);
+      await fetchProfile();
     } catch (error) {
       ToastError(error);
     }

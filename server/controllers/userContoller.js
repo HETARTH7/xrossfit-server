@@ -251,8 +251,6 @@ const addAddress = async (req, res) => {
   try {
     const { _id } = req.params;
     const { name, location } = req.body;
-    console.log(req.body);
-
     await User.findByIdAndUpdate(_id, {
       $push: { addresses: { name, location } },
     });

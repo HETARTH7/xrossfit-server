@@ -26,7 +26,7 @@ router.get("/followings/:_id", getFollowings);
 router.get("/profile/:_id", getUserProfile);
 router.put("/profile/update/phone/:_id", updatePhoneNumber);
 router.post("/profile/add/address/:_id", addAddress);
-router.put("/profile/delete/address/:id", deleteAddress);
+router.put("/profile/delete/address/:_id", deleteAddress);
 router.get("/search", getUsers);
 
 module.exports = router;
