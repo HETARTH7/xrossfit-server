@@ -12,20 +12,15 @@ const userSchema = new mongoose.Schema({
   },
   profileImgUrl: { type: String, default: "" },
   friends: {
-    type: [
-      {
-        friendID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        friendName: { type: String },
-      },
-    ],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     ref: "User",
     default: [],
   },
   chats: {
     type: [
       {
-        chatID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        chatName: { type: String },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Chat",
       },
     ],
     ref: "User",
@@ -34,8 +29,8 @@ const userSchema = new mongoose.Schema({
   following: {
     type: [
       {
-        followingID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        followingName: { type: String },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     ref: "User",
@@ -44,8 +39,8 @@ const userSchema = new mongoose.Schema({
   followers: {
     type: [
       {
-        followerID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        followerName: { type: String },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     ref: "User",

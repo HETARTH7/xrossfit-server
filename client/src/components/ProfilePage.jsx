@@ -13,7 +13,7 @@ import {
   Avatar,
   IconButton,
 } from "@mui/material";
-import { Person as PersonIcon, Edit, Delete } from "@mui/icons-material";
+import { Person as PersonIcon, Delete } from "@mui/icons-material";
 import { useParams } from "next/navigation";
 import { ToastError } from "@/utils/toast-error";
 
@@ -22,10 +22,10 @@ const ProfilePage = () => {
   const { user } = useAuthContext();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddressName, setNewAddressName] = useState("");
   const [newAddressLocation, setNewAddressLocation] = useState("");
+  const [friendRequests, setFriendRequests] = useState([]);
 
   const isOwner = user?.userId === params?.slug;
 
@@ -35,6 +35,7 @@ const ProfilePage = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setProfile(response.data);
+      console.log(response.data);
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to load profile");
     } finally {
@@ -42,8 +43,27 @@ const ProfilePage = () => {
     }
   };
 
+  const getFriendRequests = async () => {
+    try {
+      const response = await axios.get(`/friend/requests/${user.userId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.data;
+      setFriendRequests(json);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to load friend requests"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (user && params) fetchProfile();
+    if (user && params) {
+      fetchProfile();
+      getFriendRequests();
+    }
   }, [user]);
 
   const handleAddAddressClick = () => {
@@ -104,6 +124,53 @@ const ProfilePage = () => {
         <PersonIcon className="w-16 h-16" />
       </Avatar>
     );
+  };
+
+  const addFriend = async () => {
+    try {
+      const response = await axios.post(
+        "/friend/add",
+        {
+          user1: user.userId,
+          user2: params.slug,
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      const json = await response.data;
+      toast.success(json.message);
+    } catch (error) {
+      ToastError(error);
+    }
+  };
+
+  const acceptFriendRequest = async (id) => {
+    try {
+      const response = await axios.delete(`/friend/accept/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.data;
+      setFriendRequests(
+        friendRequests.filter((friendsReq) => friendsReq._id != id)
+      );
+      toast.success(json.message);
+    } catch (error) {
+      ToastError(error);
+    }
+  };
+
+  const rejectFriendRequest = async (id) => {
+    try {
+      const response = await axios.delete(`/friend/reject/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      const json = await response.data;
+      setFriendRequests(
+        friendRequests.filter((friendsReq) => friendsReq._id != id)
+      );
+      toast.success(json.message);
+    } catch (error) {
+      ToastError(error);
+    }
   };
 
   return (
@@ -189,8 +256,6 @@ const ProfilePage = () => {
                     </Typography>
                   )}
                 </div>
-
-                {/* Add New Address Button */}
                 {isOwner && !showAddressForm && (
                   <Button
                     variant="contained"
@@ -237,12 +302,28 @@ const ProfilePage = () => {
                 )}
               </div>
             </CardContent>
+            {!isOwner && <Button onClick={addFriend}>Add friend</Button>}
           </Card>
         ) : (
           <Typography variant="h6" className="text-center text-gray-500">
             Profile not found.
           </Typography>
         )}
+      </div>
+      <div>
+        {friendRequests.map((friendRequest, idx) => {
+          return (
+            <div key={idx}>
+              {friendRequest.user1.name}
+              <button onClick={() => acceptFriendRequest(friendRequest._id)}>
+                Accept
+              </button>
+              <button onClick={() => rejectFriendRequest(friendRequest._id)}>
+                Decline
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

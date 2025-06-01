@@ -1,21 +1,13 @@
 const mongoose = require("mongoose");
 
 const friendSchema = new mongoose.Schema({
-  friend1id: {
+  user1: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  friend1username: {
-    type: String,
-    required: true,
-  },
-  friend2id: {
+  user2: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-  },
-  friend2username: {
-    type: String,
-    required: true,
   },
 });
 

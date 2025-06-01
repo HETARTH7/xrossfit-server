@@ -83,8 +83,6 @@ const Navbar = () => {
     >
       <Toolbar sx={{ padding: 0 }}>
         <ToastContainer />
-
-        {/* Left Section - Flex Grow to Take Space */}
         <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
           <IconButton
             edge="start"
@@ -95,14 +93,11 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-
-          {/* Mobile Menu */}
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            {/* Mobile Links */}
             <MenuItem onClick={handleMenuClose}>
               <Link
                 href="/home"
@@ -131,8 +126,6 @@ const Navbar = () => {
               </Link>
             </MenuItem>
           </Menu>
-
-          {/* Desktop Links */}
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
             <Button color="inherit" sx={{ textTransform: "none" }}>
               <Link
@@ -179,6 +172,7 @@ const Navbar = () => {
             value={searchTerm}
             onChange={handleSearchChange}
             className="border border-gray-300 rounded px-2 py-1"
+            sx={{ marginRight: "50px" }}
           />
           {searchTerm && filteredUsers.length > 0 && (
             <Popper

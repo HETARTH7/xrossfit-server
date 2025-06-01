@@ -8,7 +8,7 @@ const {
 const router = require("express").Router();
 
 router.post("/add", addFriend);
-router.get("/requests/:id", getFriendRequests);
+router.get("/requests/:_id", getFriendRequests);
 router.delete("/accept/:_id", acceptFriendRequest);
 router.delete("/reject/:_id", rejectFriendRequest);
 

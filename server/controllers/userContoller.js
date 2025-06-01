@@ -229,6 +229,8 @@ const getUserProfile = async (req, res) => {
       name: user.name,
       phone: user.phone,
       addresses: user.addresses,
+      following: user.following,
+      followers: user.followers,
     };
     res.status(200).json(profile);
   } catch (error) {

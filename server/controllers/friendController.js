@@ -1,19 +1,17 @@
 const Friend = require("../models/friendModel");
 const User = require("../models/userModel");
+const { ObjectId } = require("mongodb");
 
 const addFriend = async (req, res) => {
   try {
-    const { friend1id, friend1username, friend2id, friend2username } = req.body;
+    const { user1, user2 } = req.body;
+
     const friendRequest = new Friend({
-      friend1id,
-      friend1username,
-      friend2id,
-      friend2username,
+      user1,
+      user2,
     });
     await friendRequest.save();
-    res
-      .status(201)
-      .json({ message: "Friend request sent to " + friend2username });
+    res.status(201).json({ message: "Friend request sent" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -21,8 +19,11 @@ const addFriend = async (req, res) => {
 
 const getFriendRequests = async (req, res) => {
   try {
-    const { id } = req.params;
-    const friendRequests = await Friend.find({ friend2id: id });
+    const { _id } = req.params;
+    const friendRequests = await Friend.find({ user2: _id }).populate(
+      "user1",
+      "name"
+    );
     res.status(200).json(friendRequests);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -33,22 +34,20 @@ const acceptFriendRequest = async (req, res) => {
   try {
     const { _id } = req.params;
     const friendRequest = await Friend.findById(_id);
-    const { friend1id, friend1username, friend2id, friend2username } =
-      friendRequest;
-
+    const { user1, user2 } = friendRequest;
     await Friend.findByIdAndDelete(_id);
-    await User.findByIdAndUpdate(friend1id, {
+    await User.findByIdAndUpdate(user1, {
       $push: {
-        friends: { friendID: friend2id, friendName: friend2username },
-        following: { followingID: friend2id, followingName: friend2username },
-        followers: { followerID: friend2id, followerName: friend2username },
+        friends: user2,
+        following: user2,
+        followers: user2,
       },
     });
-    await User.findByIdAndUpdate(friend2id, {
+    await User.findByIdAndUpdate(user2, {
       $push: {
-        friends: { friendID: friend1id, friendName: friend1username },
-        following: { followingID: friend1id, followingName: friend1username },
-        followers: { followerID: friend1id, followerName: friend1username },
+        friends: user1,
+        following: user1,
+        followers: user1,
       },
     });
     res.status(200).json({ message: "Friend request accepted" });
