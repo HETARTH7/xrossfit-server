@@ -4,17 +4,25 @@ import com.hetarth.xrossfit.dao.UserDAO;
 import com.hetarth.xrossfit.dto.auth.LoginRequest;
 import com.hetarth.xrossfit.dto.auth.SignupRequest;
 import com.hetarth.xrossfit.entity.User;
-import com.hetarth.xrossfit.service.UserService;
+import com.hetarth.xrossfit.service.AuthenticationService;
 import com.hetarth.xrossfit.utils.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @Override
     public User signup(SignupRequest request){
@@ -32,18 +40,19 @@ public class UserServiceImpl implements UserService {
         user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-
         return userDAO.save(user);
     }
 
     @Override
     public User login(LoginRequest request){
-        Optional<User> user = userDAO.findByEmail(request.getEmail());
-        if(user.isEmpty()){
-            throw new RuntimeException("No such user exists.");
-        }
-        return user.get();
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        return userDAO.findByEmail(request.getEmail()).orElseThrow();
     }
 }

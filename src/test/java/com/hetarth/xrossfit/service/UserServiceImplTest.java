@@ -1,7 +1,7 @@
 package com.hetarth.xrossfit.service;
 
 import com.hetarth.xrossfit.dao.UserDAO;
-import com.hetarth.xrossfit.service.impl.UserServiceImpl;
+import com.hetarth.xrossfit.service.impl.AuthenticationServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,7 +13,7 @@ public class UserServiceImplTest {
     private UserDAO userDAO;
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private AuthenticationServiceImpl userService;
 
     @Test
     public void signupTest_Happy(){
