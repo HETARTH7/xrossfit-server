@@ -50,12 +50,22 @@ The following tables are included (see `xrossfit.sql` for full details):
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/your-username/xrossfit.git
-   cd xrossfit
+   git clone https://github.com/hetarth7/xrossfit-server.git
+   cd xrossfit-server
    ```
-2. Import the project into your IDE (IntelliJ/Eclipse).
+2. Import the project into your IDE.
 3. Configure your database in `application.properties`.
 4. Run the Spring Boot application.
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+---
+
+## To do:
+1. Enable logging
+2. Creating local images of microservice and mysql db to deploy and test on docker
 
 ---
 
