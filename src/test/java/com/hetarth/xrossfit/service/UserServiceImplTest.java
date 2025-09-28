@@ -1,8 +1,6 @@
 package com.hetarth.xrossfit.service;
 
 import com.hetarth.xrossfit.dao.UserDAO;
-import com.hetarth.xrossfit.dto.SignupRequest;
-import com.hetarth.xrossfit.dto.SignupResponse;
 import com.hetarth.xrossfit.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,8 +1,10 @@
 package com.hetarth.xrossfit.controller.impl;
 
 import com.hetarth.xrossfit.controller.AuthController;
-import com.hetarth.xrossfit.dto.SignupRequest;
-import com.hetarth.xrossfit.dto.SignupResponse;
+import com.hetarth.xrossfit.dto.auth.LoginRequest;
+import com.hetarth.xrossfit.dto.auth.LoginResponse;
+import com.hetarth.xrossfit.dto.auth.SignupRequest;
+import com.hetarth.xrossfit.dto.auth.SignupResponse;
 import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,25 @@ public class AuthControllerImpl implements AuthController {
             SignupResponse response=new SignupResponse();
             response.setError(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+    }
+
+    @PostMapping("/login")
+    @Override
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
+        try{
+            User user = userService.login(request);
+            LoginResponse response = new LoginResponse();
+            response.setId(user.getId());
+            response.setUsername(user.getUsername());
+            response.setEmailVerified(user.getEmailVerified());
+            response.setRole(user.getRole().name());
+            response.setToken("");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch(Exception e){
+            LoginResponse response=new LoginResponse();
+            response.setError(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.hetarth.xrossfit.dto;
+package com.hetarth.xrossfit.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,12 +1,15 @@
 package com.hetarth.xrossfit.service.impl;
 
 import com.hetarth.xrossfit.dao.UserDAO;
-import com.hetarth.xrossfit.dto.SignupRequest;
+import com.hetarth.xrossfit.dto.auth.LoginRequest;
+import com.hetarth.xrossfit.dto.auth.SignupRequest;
 import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.UserService;
 import com.hetarth.xrossfit.utils.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,5 +36,14 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.USER);
 
         return userDAO.save(user);
+    }
+
+    @Override
+    public User login(LoginRequest request){
+        Optional<User> user = userDAO.findByEmail(request.getEmail());
+        if(user.isEmpty()){
+            throw new RuntimeException("No such user exists.");
+        }
+        return user.get();
     }
 }
