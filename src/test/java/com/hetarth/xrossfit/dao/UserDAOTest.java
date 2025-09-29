@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 @DataJpaTest
 public class UserDAOTest {
 
@@ -19,7 +21,7 @@ public class UserDAOTest {
         user.setFirstName("test_fname");
         user.setLastName("test_lname");
         user.setUsername("test_username");
-        user.setEmail("test_email");
+        user.setEmail("test_email@gmail.com");
         user.setPassword("test_password");
         userDAO.save(user);
     }
@@ -38,13 +40,25 @@ public class UserDAOTest {
 
     @Test
     public void existsByEmailTest_userExists(){
-        boolean userExists = userDAO.existsByEmail("test_email");
+        boolean userExists = userDAO.existsByEmail("test_email@gmail.com");
         Assertions.assertTrue(userExists);
     }
 
     @Test
     public void existsByEmailTest_userDoesNotExist(){
-        boolean userExists = userDAO.existsByEmail("non_existing_email");
+        boolean userExists = userDAO.existsByEmail("non_existing_email@gmail.com");
         Assertions.assertFalse(userExists);
+    }
+
+    @Test
+    public void findByEmailTest_userExists(){
+        Optional<User> user = userDAO.findByEmail("test_email@gmail.com");
+        Assertions.assertTrue(user.isPresent());
+    }
+
+    @Test
+    public void findByEmailTest_useDoesNotExists(){
+        Optional<User> user = userDAO.findByEmail("non_existing_email@gmail.com");
+        Assertions.assertTrue(user.isEmpty());
     }
 }
