@@ -1,4 +1,4 @@
-# Xrossfit
+# Xrossfit Server
 
 A **fitness tracking and e-commerce app** built with Spring Boot.
 Users can log workouts, shop for fitness equipment, track purchases, and use promotions for discounts.
@@ -7,22 +7,20 @@ Users can log workouts, shop for fitness equipment, track purchases, and use pro
 
 ## 🚀 Features
 
-* User authentication (signup/login with email/OTP/password)
-* Daily exercise logging and tracking
-* Exercise library with categories (Cardio, Strength, Flexibility, Balance)
-* E-commerce module: wishlist, cart, checkout, payments
-* Promotions and discounts with voucher codes
-* Admin panel for managing users and exercises
+* User authentication (signup/login with email and password)
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: ReactJS (Typescript)
-* **Backend**: Spring Boot (Java)
-* **Database**: MySQL  (SQL schema in `xrossfit.sql`)
-* **Authentication**: JWT & refresh tokens (HttpOnly cookies)
-* **Other**: JPA/Hibernate for ORM
+* **Backend**: Spring Boot 3, Spring Web, Spring Security 6 (JWT), Spring Data JPA, Hibernate, Validation API
+* **Database**: MySQL
+* **Language**: Java 21
+* **Build Tool**: Maven
+* **Authentication**: JWT (JSON Web Tokens), BCrypt PasswordEncoder
+* **Testing**: JUnit 5, Mockito
+* **Utilities**: Lombok, Slf4j
+* **DevOps**: Docker
 
 ---
 
@@ -55,7 +53,15 @@ The following tables are included (see `xrossfit.sql` for full details):
    ```
 2. Import the project into your IDE.
 3. Configure your database in `application.properties`.
-4. Run the Spring Boot application.
+4. Build using maven.
+    ```bash
+    mvn clean install
+    ```
+   OR
+    ```bash
+    mvn clean install -DskipTests
+    ```
+5. Run the Spring Boot application.
 
    ```bash
    mvn spring-boot:run
@@ -64,8 +70,11 @@ The following tables are included (see `xrossfit.sql` for full details):
 ---
 
 ## To do:
-1. Enable logging
-2. Creating local images of microservice and mysql db to deploy and test on docker
+* Daily exercise logging and tracking
+* Exercise library with categories (Cardio, Strength, Flexibility, Balance)
+* E-commerce module: wishlist, cart, checkout, payments
+* Promotions and discounts with voucher codes
+* Admin panel for managing users and exercises
 
 ---
 
