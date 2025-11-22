@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SignupResponse {
     private Long id;
-    private String username;
+    private String displayName;
     private boolean emailVerified;
     private String role;
     private String token;

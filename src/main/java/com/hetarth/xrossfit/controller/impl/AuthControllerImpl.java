@@ -29,13 +29,13 @@ public class AuthControllerImpl implements AuthController {
     @PostMapping("/signup")
     @Override
     public ResponseEntity<SignupResponse> signup(@RequestBody SignupRequest request){
-        log.info("Received signup request for username: {}", request.getUsername());
+        log.info("Received signup request for username: {}", request.getDisplayName());
         try{
             User user = authenticationService.signup(request);
             String jwtToken = jwtService.generateToken(user);
             SignupResponse response=new SignupResponse();
             response.setId(user.getId());
-            response.setUsername(user.getUsername());
+            response.setDisplayName(user.getDisplayName());
             response.setEmailVerified(user.getEmailVerified());
             response.setRole(user.getRole().name());
             response.setToken(jwtToken);
@@ -43,7 +43,7 @@ public class AuthControllerImpl implements AuthController {
             log.info("Signup successful for username: {} (id={})", user.getUsername(), user.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch(Exception e){
-            log.error("Signup failed for username: {}. Reason: {}", request.getUsername(), e.getMessage(), e);
+            log.error("Signup failed for: {}. Reason: {}", request.getDisplayName(), e.getMessage(), e);
             SignupResponse response=new SignupResponse();
             response.setError(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
@@ -59,7 +59,7 @@ public class AuthControllerImpl implements AuthController {
             String jwtToken = jwtService.generateToken(user);
             LoginResponse response = new LoginResponse();
             response.setId(user.getId());
-            response.setUsername(user.getUsername());
+            response.setDisplayName(user.getDisplayName());
             response.setEmailVerified(user.getEmailVerified());
             response.setRole(user.getRole().name());
             response.setToken(jwtToken);

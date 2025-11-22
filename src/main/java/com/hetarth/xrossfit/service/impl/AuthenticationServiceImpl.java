@@ -28,34 +28,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User signup(SignupRequest request){
-        log.info("Attempting signup for username: {}", request.getUsername());
+        log.info("Attempting signup for: {}", request.getDisplayName());
         try {
-            if(userDAO.existsByUsername(request.getUsername())){
-                log.warn("Signup failed: Username '{}' is already taken", request.getUsername());
+            if(userDAO.existsByDisplayName(request.getDisplayName())){
+                log.warn("Signup failed: Username '{}' is already taken", request.getDisplayName());
                 throw new RuntimeException("Username already taken");
             }
             if(userDAO.existsByEmail(request.getEmail())){
                 log.warn("Signup failed: Email '{}' is already in use", request.getEmail());
                 throw new RuntimeException("Email already in use");
             }
-            if(request.getFirstName()==null || request.getLastName()==null || request.getUsername()==null || request.getEmail()==null || request.getPassword()==null){
-                log.warn("Signup failed: Missing required fields for username: {}", request.getUsername());
+            if(request.getFirstName()==null || request.getLastName()==null || request.getDisplayName()==null || request.getEmail()==null || request.getPassword()==null){
+                log.warn("Signup failed: Missing required fields for username: {}", request.getDisplayName());
                 throw new RuntimeException("All fields must be filled.");
             }
             User user = new User();
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
-            user.setUsername(request.getUsername());
+            user.setDisplayName(request.getDisplayName());
             user.setEmail(request.getEmail());
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setRole(Role.USER);
 
             User savedUser = userDAO.save(user);
-            log.info("User created successfully with id={} and username={}", savedUser.getId(), savedUser.getUsername());
+            log.info("User created successfully with id={}", savedUser.getId());
 
             return savedUser;
         } catch (Exception e) {
-            log.warn("Signup failed for user: {}. Reason: {}", request.getUsername(), e.getMessage());
+            log.warn("Signup failed for user: {}. Reason: {}", request.getDisplayName(), e.getMessage());
             throw e;
         }
     }
@@ -84,7 +84,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         User user = userOpt.get();
-        log.info("User login successful for username={} (id={})", user.getUsername(), user.getId());
+        log.info("User login successful for {} (id={})", user.getDisplayName(), user.getId());
         return user;
     }
 }

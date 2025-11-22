@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private String lastName;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(name = "display_name")
+    private String displayName;
     private String password;
     @Column(name = "email_verified")
     private Boolean emailVerified= true;
