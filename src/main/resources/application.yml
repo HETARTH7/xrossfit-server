@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: xrossfit
+  datasource:
+    url: jdbc:mysql://localhost:3306/xrossfit_db
+    username: root
+    password: sw_dev
+    test:
+      url: jdbc:h2:mem/unit_test_db
+      diverClassName: org.h2.Driver
+      username: root
+      password: root
+
+
+server:
+  port:8080
+
+# JWT auth token details
+security:
+  jwt:
+    secretKey: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    expirationTime:
+      authToken: 900000 # 15min in milliseconds
+      refreshToken: 3600000 # 1hr in millisecond

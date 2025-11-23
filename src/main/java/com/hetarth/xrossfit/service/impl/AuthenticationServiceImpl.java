@@ -29,62 +29,46 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User signup(SignupRequest request){
         log.info("Attempting signup for: {}", request.getDisplayName());
-        try {
-            if(userDAO.existsByDisplayName(request.getDisplayName())){
-                log.warn("Signup failed: Username '{}' is already taken", request.getDisplayName());
-                throw new RuntimeException("Username already taken");
-            }
-            if(userDAO.existsByEmail(request.getEmail())){
-                log.warn("Signup failed: Email '{}' is already in use", request.getEmail());
-                throw new RuntimeException("Email already in use");
-            }
-            if(request.getFirstName()==null || request.getLastName()==null || request.getDisplayName()==null || request.getEmail()==null || request.getPassword()==null){
-                log.warn("Signup failed: Missing required fields for username: {}", request.getDisplayName());
-                throw new RuntimeException("All fields must be filled.");
-            }
-            User user = new User();
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            user.setDisplayName(request.getDisplayName());
-            user.setEmail(request.getEmail());
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setRole(Role.USER);
-
-            User savedUser = userDAO.save(user);
-            log.info("User created successfully with id={}", savedUser.getId());
-
-            return savedUser;
-        } catch (Exception e) {
-            log.warn("Signup failed for user: {}. Reason: {}", request.getDisplayName(), e.getMessage());
-            throw e;
+        if(userDAO.existsByDisplayName(request.getDisplayName())){
+            log.warn("Signup failed: Username '{}' is already taken", request.getDisplayName());
+            throw new RuntimeException("Username already taken");
         }
+        if(userDAO.existsByEmail(request.getEmail())){
+            log.warn("Signup failed: Email '{}' is already in use", request.getEmail());
+            throw new RuntimeException("Email already in use");
+        }
+        if(request.getFirstName()==null || request.getLastName()==null || request.getDisplayName()==null || request.getEmail()==null || request.getPassword()==null){
+            log.warn("Signup failed: Missing required fields for username: {}", request.getDisplayName());
+            throw new RuntimeException("All fields must be filled.");
+        }
+        User user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setDisplayName(request.getDisplayName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
+
+        User savedUser = userDAO.save(user);
+        log.info("User created successfully with id={}", savedUser.getId());
+
+        return savedUser;
     }
 
     @Override
     public User login(LoginRequest request) {
-        log.info("Attempting login for email: {}", request.getEmail());
+        log.info("Login attempt for email: {}", request.getEmail());
 
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
-            log.info("Authentication successful for email: {}", request.getEmail());
-        } catch (Exception e) {
-            log.warn("Authentication failed for email: {}. Reason: {}", request.getEmail(), e.getMessage());
-            throw e;
-        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
-        Optional<User> userOpt = userDAO.findByEmail(request.getEmail());
-        if (userOpt.isEmpty()) {
-            log.warn("Login failed: No user found with email: {}", request.getEmail());
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        User user = userOpt.get();
-        log.info("User login successful for {} (id={})", user.getDisplayName(), user.getId());
-        return user;
+        return userDAO.findByEmail(request.getEmail()).map(user -> {
+                    log.info("Authentication successful for: {}", request.getEmail());
+                    return user;
+                }).orElseThrow(() -> new RuntimeException("Invalid credentials"));
     }
 }

@@ -1,7 +1,7 @@
 # Xrossfit Server
 
 A **fitness tracking and e-commerce app** built with Spring Boot.
-Users can log workouts, shop for fitness equipment, track purchases, and use promotions for discounts.
+Users can log workouts and shop for fitness equipments.
 
 ---
 
