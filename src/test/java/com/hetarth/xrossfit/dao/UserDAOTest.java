@@ -20,7 +20,7 @@ public class UserDAOTest {
         User user = new User();
         user.setFirstName("test_fname");
         user.setLastName("test_lname");
-        user.setUsername("test_username");
+        user.setDisplayName("test_display_name");
         user.setEmail("test_email@gmail.com");
         user.setPassword("test_password");
         userDAO.save(user);
@@ -28,13 +28,13 @@ public class UserDAOTest {
 
     @Test
     public void existsByUsernameTest_userExists(){
-        boolean userExists = userDAO.existsByUsername("test_username");
+        boolean userExists = userDAO.existsByDisplayName("test_display_name");
         Assertions.assertTrue(userExists);
     }
 
     @Test
     public void existsByUsernameTest_userDoesNotExist(){
-        boolean userExists = userDAO.existsByUsername("non_existing_username");
+        boolean userExists = userDAO.existsByDisplayName("non_existing_displayname");
         Assertions.assertFalse(userExists);
     }
 

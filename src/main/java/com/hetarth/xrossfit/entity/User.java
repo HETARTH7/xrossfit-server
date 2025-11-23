@@ -1,7 +1,14 @@
 package com.hetarth.xrossfit.entity;
 
 import com.hetarth.xrossfit.utils.Role;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,9 +34,9 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(nullable = false, unique = true)
-    private String username;
-    @Column(nullable = false, unique = true)
     private String email;
+    @Column(name = "display_name")
+    private String displayName;
     private String password;
     @Column(name = "email_verified")
     private Boolean emailVerified= true;
