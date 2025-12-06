@@ -31,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.info("Attempting signup for: {}", request.getDisplayName());
         if(userDAO.existsByDisplayName(request.getDisplayName())){
             log.warn("Signup failed: Username '{}' is already taken", request.getDisplayName());
-            throw new RuntimeException("Username already taken");
+            throw new RuntimeException("Display Name already taken");
         }
         if(userDAO.existsByEmail(request.getEmail())){
             log.warn("Signup failed: Email '{}' is already in use", request.getEmail());

@@ -48,7 +48,7 @@ The following tables are included (see `xrossfit.sql` for full details):
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/hetarth7/xrossfit-server.git
+   git clone https://github.com/HETARTH7/xrossfit-server.git
    cd xrossfit-server
    ```
 2. Import the project into your IDE.

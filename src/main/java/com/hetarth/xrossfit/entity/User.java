@@ -9,6 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +37,13 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(nullable = false, unique = true)
+    @Email
+    @NotBlank
     private String email;
     @Column(name = "display_name")
     private String displayName;
+    @NotBlank
+    @Size(min = 6)
     private String password;
     @Column(name = "email_verified")
     private Boolean emailVerified= true;
