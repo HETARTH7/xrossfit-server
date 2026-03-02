@@ -1,10 +1,7 @@
 package com.hetarth.xrossfit.entity;
 
-import com.hetarth.xrossfit.utils.ExerciseType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,16 +12,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "exercises")
+@Table(name = "metrics")
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
-public class Exercise {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Metric {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "exercise_name", nullable = false)
-    private String exerciseName;
-    @Column(name = "exercise_type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ExerciseType exerciseType;
+    @Column(nullable = false, unique = true)
+    private String name;
+    @Column(nullable = false)
+    private String unit;
 }
