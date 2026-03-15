@@ -1,6 +1,7 @@
 package com.hetarth.xrossfit.service.impl;
 
 import com.hetarth.xrossfit.dao.ExerciseDAO;
+import com.hetarth.xrossfit.dto.workouttracker.ExerciseDTO;
 import com.hetarth.xrossfit.service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     private ExerciseDAO exerciseDAO;
 
     @Override
-    public List<String> getExerciseNames() {
-        return exerciseDAO.getExerciseNames();
+    public List<ExerciseDTO> getExercises() {
+        return exerciseDAO.getExercises();
     }
 }
