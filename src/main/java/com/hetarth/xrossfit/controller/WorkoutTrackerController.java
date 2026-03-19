@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface WorkoutTrackerController {
     ResponseEntity<List<ExerciseDTO>> getExercises();
-    ResponseEntity<ExerciseDetails> getExerciseDetails(String exerciseName);
+    ResponseEntity<ExerciseDetails> getExerciseDetails(Long exerciseId);
 }

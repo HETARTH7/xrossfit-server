@@ -4,10 +4,12 @@ import com.hetarth.xrossfit.controller.WorkoutTrackerController;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDTO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.service.ExerciseService;
+import com.hetarth.xrossfit.service.WorkoutTrackerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,8 @@ import java.util.List;
 public class WorkoutTrackerControllerImpl implements WorkoutTrackerController {
     @Autowired
     private ExerciseService exerciseService;
+    @Autowired
+    private WorkoutTrackerService workoutTrackerService;
 
     @GetMapping("/exerciseNames")
     @Override
@@ -35,11 +39,14 @@ public class WorkoutTrackerControllerImpl implements WorkoutTrackerController {
         }
     }
 
+    @GetMapping("/exerciseDetails/{exerciseId}")
     @Override
-    public ResponseEntity<ExerciseDetails> getExerciseDetails(@RequestParam String exerciseName) {
-        log.info("Getting exercise and metric details for: {}", exerciseName);
+    public ResponseEntity<ExerciseDetails> getExerciseDetails(@PathVariable Long exerciseId) {
+        log.info("Getting exercise and metric details for exercise id: {}", exerciseId);
         try {
-            return ResponseEntity.ok(new ExerciseDetails());
+            ExerciseDetails exerciseDetails = workoutTrackerService.getExerciseDetails(exerciseId);
+            log.info("Fetched exercise details for {}", exerciseDetails.getExerciseName());
+            return ResponseEntity.ok(exerciseDetails);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
