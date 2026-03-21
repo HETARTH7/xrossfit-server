@@ -21,16 +21,20 @@ public class WorkoutTrackerServiceImpl implements WorkoutTrackerService {
 
     @Override
     public ExerciseDetails getExerciseDetails(Long exerciseId) throws Exception {
-        Optional<Exercise> exerciseOptional = exerciseService.getExerciseById(exerciseId);
-        if(exerciseOptional.isEmpty()){
-            throw new Exception("No exercise found with id: " + exerciseId);
+        try {
+            Optional<Exercise> exerciseOptional = exerciseService.getExerciseById(exerciseId);
+            if (exerciseOptional.isEmpty()) {
+                throw new Exception("No exercise found with id: " + exerciseId);
+            }
+            List<MetricDTO> metrics = metricService.findMetricsByExerciseId(exerciseId);
+            ExerciseDetails exerciseDetails = new ExerciseDetails();
+            Exercise exercise = exerciseOptional.get();
+            exerciseDetails.setExerciseName(exercise.getExerciseName());
+            exerciseDetails.setExerciseType(exercise.getExerciseType());
+            exerciseDetails.setMetrics(metrics);
+            return exerciseDetails;
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
-        List<MetricDTO> metrics = metricService.findMetricsByExerciseId(exerciseId);
-        ExerciseDetails exerciseDetails = new ExerciseDetails();
-        Exercise exercise = exerciseOptional.get();
-        exerciseDetails.setExerciseName(exercise.getExerciseName());
-        exerciseDetails.setExerciseType(exercise.getExerciseType());
-        exerciseDetails.setMetrics(metrics);
-        return exerciseDetails;
     }
 }

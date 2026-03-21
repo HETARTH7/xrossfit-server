@@ -48,6 +48,7 @@ public class WorkoutTrackerControllerImpl implements WorkoutTrackerController {
             log.info("Fetched exercise details for {}", exerciseDetails.getExerciseName());
             return ResponseEntity.ok(exerciseDetails);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -12,7 +12,7 @@ public interface MetricDAO extends JpaRepository<Metric, Long> {
     @Query("""
     SELECT m.id AS id,
            m.name AS name,
-           m.unit AS unit
+           m.unit AS units
     FROM Metric m
     JOIN ExerciseMetric em ON m.id = em.metric.id
     WHERE em.exercise.id = :exerciseId

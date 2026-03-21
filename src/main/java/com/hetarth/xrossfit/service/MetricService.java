@@ -13,6 +13,10 @@ public class MetricService {
     private MetricDAO metricDAO;
 
     public List<MetricDTO> findMetricsByExerciseId(Long exerciseId){
-        return metricDAO.findMetricsByExerciseId(exerciseId);
+        try{
+            return metricDAO.findMetricsByExerciseId(exerciseId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
