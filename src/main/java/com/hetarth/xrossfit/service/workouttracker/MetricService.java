@@ -1,4 +1,4 @@
-package com.hetarth.xrossfit.service;
+package com.hetarth.xrossfit.service.workouttracker;
 
 import com.hetarth.xrossfit.dao.MetricDAO;
 import com.hetarth.xrossfit.dto.workouttracker.MetricDTO;

@@ -1,10 +1,9 @@
-package com.hetarth.xrossfit.service.impl;
+package com.hetarth.xrossfit.service.auth;
 
 import com.hetarth.xrossfit.dao.UserDAO;
 import com.hetarth.xrossfit.dto.auth.LoginRequest;
 import com.hetarth.xrossfit.dto.auth.SignupRequest;
 import com.hetarth.xrossfit.entity.User;
-import com.hetarth.xrossfit.service.AuthenticationService;
 import com.hetarth.xrossfit.utils.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-@Slf4j
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+@Slf4j
+public class AuthenticationService {
     @Autowired
     private UserDAO userDAO;
     @Autowired
@@ -25,8 +22,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
-    @Override
     public User signup(SignupRequest request){
         log.info("Attempting signup for: {}", request.getDisplayName());
         if(userDAO.existsByDisplayName(request.getDisplayName())){
@@ -55,7 +50,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return savedUser;
     }
 
-    @Override
     public User login(LoginRequest request) {
         log.info("Login attempt for email: {}", request.getEmail());
 
@@ -67,8 +61,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         return userDAO.findByEmail(request.getEmail()).map(user -> {
-                    log.info("Authentication successful for: {}", request.getEmail());
-                    return user;
-                }).orElseThrow(() -> new RuntimeException("Invalid credentials"));
+            log.info("Authentication successful for: {}", request.getEmail());
+            return user;
+        }).orElseThrow(() -> new RuntimeException("Invalid credentials"));
     }
 }

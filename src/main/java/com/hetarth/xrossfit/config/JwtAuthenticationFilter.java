@@ -1,6 +1,6 @@
 package com.hetarth.xrossfit.config;
 
-import com.hetarth.xrossfit.service.JwtService;
+import com.hetarth.xrossfit.service.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

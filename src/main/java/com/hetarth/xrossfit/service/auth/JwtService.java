@@ -1,4 +1,4 @@
-package com.hetarth.xrossfit.service;
+package com.hetarth.xrossfit.service.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

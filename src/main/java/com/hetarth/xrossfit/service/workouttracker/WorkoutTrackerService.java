@@ -1,11 +1,8 @@
-package com.hetarth.xrossfit.service.impl;
+package com.hetarth.xrossfit.service.workouttracker;
 
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.dto.workouttracker.MetricDTO;
 import com.hetarth.xrossfit.entity.Exercise;
-import com.hetarth.xrossfit.service.ExerciseService;
-import com.hetarth.xrossfit.service.MetricService;
-import com.hetarth.xrossfit.service.WorkoutTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WorkoutTrackerServiceImpl implements WorkoutTrackerService {
+public class WorkoutTrackerService {
     @Autowired
     private ExerciseService exerciseService;
     @Autowired
     private MetricService metricService;
 
-    @Override
-    public ExerciseDetails getExerciseDetails(Long exerciseId) throws Exception {
+    public ExerciseDetails getExerciseDetails(Long exerciseId) {
         try {
             Optional<Exercise> exerciseOptional = exerciseService.getExerciseById(exerciseId);
             if (exerciseOptional.isEmpty()) {
