@@ -1,8 +1,12 @@
 package com.hetarth.xrossfit.service.workouttracker;
 
+import com.hetarth.xrossfit.dao.ExerciseLogDAO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.dto.workouttracker.MetricDTO;
+import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
 import com.hetarth.xrossfit.entity.Exercise;
+import com.hetarth.xrossfit.entity.ExerciseLog;
+import com.hetarth.xrossfit.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ public class WorkoutTrackerService {
     private ExerciseService exerciseService;
     @Autowired
     private MetricService metricService;
+    @Autowired
+    private ExerciseLogDAO exerciseLogDAO;
 
     public ExerciseDetails getExerciseDetails(Long exerciseId) {
         try {
@@ -32,5 +38,17 @@ public class WorkoutTrackerService {
         } catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public void logWorkout(User user, WorkoutLogRequest request) {
+        ExerciseLog log = new ExerciseLog();
+        Optional<Exercise> exercise = exerciseService.getExerciseById(request.getExerciseId());
+        if(exercise.isEmpty()) {
+            throw new RuntimeException("Invalid Exercise");
+        }
+        log.setUser(user);
+        log.setExercise(exercise.get());
+        log.setLoggedAt(request.getLoggedAt());
+        exerciseLogDAO.save(log);
     }
 }
