@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,10 +55,11 @@ public class WorkoutTrackerController  {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<String> logWorkout(@AuthenticationPrincipal User user, WorkoutLogRequest request) {
+    public ResponseEntity<String> logWorkout(@AuthenticationPrincipal User user, @RequestBody WorkoutLogRequest request) {
+        log.info("Saving log ...");
         try {
             workoutTrackerService.logWorkout(user, request);
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body("Log saved successfully.");
         } catch (Exception e) {
             log.error("Failed to save exercise log. {}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());

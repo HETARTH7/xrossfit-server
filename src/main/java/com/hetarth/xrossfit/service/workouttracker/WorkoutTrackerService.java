@@ -8,6 +8,7 @@ import com.hetarth.xrossfit.entity.ExerciseLog;
 import com.hetarth.xrossfit.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class WorkoutTrackerService {
         }
     }
 
+    @Transactional
     public void logWorkout(User user, WorkoutLogRequest request) {
         ExerciseLog log = new ExerciseLog();
         Optional<Exercise> exercise = exerciseService.getExerciseById(request.getExerciseId());
