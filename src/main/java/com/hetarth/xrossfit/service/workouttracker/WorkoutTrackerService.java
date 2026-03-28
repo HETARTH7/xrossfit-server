@@ -2,10 +2,12 @@ package com.hetarth.xrossfit.service.workouttracker;
 
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.dto.workouttracker.MetricDTO;
+import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogDTO;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
 import com.hetarth.xrossfit.entity.Exercise;
 import com.hetarth.xrossfit.entity.ExerciseLog;
 import com.hetarth.xrossfit.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class WorkoutTrackerService {
     @Autowired
@@ -44,15 +47,19 @@ public class WorkoutTrackerService {
 
     @Transactional
     public void logWorkout(User user, WorkoutLogRequest request) {
-        ExerciseLog log = new ExerciseLog();
+        ExerciseLog exerciseLog = new ExerciseLog();
         Optional<Exercise> exercise = exerciseService.getExerciseById(request.getExerciseId());
         if(exercise.isEmpty()) {
             throw new RuntimeException("Invalid Exercise");
         }
-        log.setUser(user);
-        log.setExercise(exercise.get());
-        log.setLoggedAt(request.getLoggedAt());
-        ExerciseLog savedLog = exerciseLogService.logWorkout(log);
+        exerciseLog.setUser(user);
+        exerciseLog.setExercise(exercise.get());
+        exerciseLog.setLoggedAt(request.getLoggedAt());
+        ExerciseLog savedLog = exerciseLogService.logWorkout(exerciseLog);
         logMetricService.logExerciseMetrics(request.getMetrics(), savedLog);
+    }
+
+    public List<WorkoutLogDTO> getWorkoutLogs(Long userId) {
+        return exerciseLogService.findWorkoutLogsByUserId(userId);
     }
 }

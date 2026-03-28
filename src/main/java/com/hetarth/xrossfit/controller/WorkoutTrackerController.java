@@ -2,6 +2,7 @@ package com.hetarth.xrossfit.controller;
 
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDTO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
+import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogDTO;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
 import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.workouttracker.ExerciseService;
@@ -59,10 +60,22 @@ public class WorkoutTrackerController  {
         log.info("Saving log ...");
         try {
             workoutTrackerService.logWorkout(user, request);
-            return ResponseEntity.ok().body("Log saved successfully.");
+            return ResponseEntity.ok("Log saved successfully.");
         } catch (Exception e) {
             log.error("Failed to save exercise log. {}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/logs")
+    public ResponseEntity<List<WorkoutLogDTO>> getWorkoutLogs(@AuthenticationPrincipal User user) {
+        log.info("Fetching workout logs for user: {} (id = {})", user.getDisplayName(), user.getId());
+        try {
+            List<WorkoutLogDTO> workoutLogs = workoutTrackerService.getWorkoutLogs(user.getId());
+            return ResponseEntity.ok(workoutLogs);
+        } catch (Exception e) {
+            log.error("Error in fetching workout logs for user: {} (id = {}", user.getDisplayName(), user.getId());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
