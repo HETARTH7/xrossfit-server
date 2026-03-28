@@ -1,6 +1,5 @@
 package com.hetarth.xrossfit.service.workouttracker;
 
-import com.hetarth.xrossfit.dao.ExerciseLogDAO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.dto.workouttracker.MetricDTO;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
@@ -20,7 +19,9 @@ public class WorkoutTrackerService {
     @Autowired
     private MetricService metricService;
     @Autowired
-    private ExerciseLogDAO exerciseLogDAO;
+    private ExerciseLogService exerciseLogService;
+    @Autowired
+    private LogMetricService logMetricService;
 
     public ExerciseDetails getExerciseDetails(Long exerciseId) {
         try {
@@ -49,6 +50,7 @@ public class WorkoutTrackerService {
         log.setUser(user);
         log.setExercise(exercise.get());
         log.setLoggedAt(request.getLoggedAt());
-        exerciseLogDAO.save(log);
+        ExerciseLog savedLog = exerciseLogService.logWorkout(log);
+        logMetricService.logExerciseMetrics(request.getMetrics(), savedLog);
     }
 }

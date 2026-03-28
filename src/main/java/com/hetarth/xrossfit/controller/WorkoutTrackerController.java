@@ -48,7 +48,7 @@ public class WorkoutTrackerController  {
             log.info("Fetched exercise details for {}", exerciseDetails.getExerciseName());
             return ResponseEntity.ok(exerciseDetails);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Error fetching exercise details. {}",e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -59,7 +59,7 @@ public class WorkoutTrackerController  {
             workoutTrackerService.logWorkout(user, request);
             return ResponseEntity.ok().body("");
         } catch (Exception e) {
-            log.error("{}", e.getMessage());
+            log.error("Failed to save exercise log. {}", e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
