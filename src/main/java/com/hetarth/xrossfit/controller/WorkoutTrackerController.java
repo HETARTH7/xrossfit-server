@@ -4,6 +4,7 @@ import com.hetarth.xrossfit.dto.workouttracker.ExerciseDTO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogDTO;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
+import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogResponse;
 import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.workouttracker.ExerciseService;
 import com.hetarth.xrossfit.service.workouttracker.WorkoutTrackerService;
@@ -69,10 +70,11 @@ public class WorkoutTrackerController  {
     }
 
     @GetMapping("/logs")
-    public ResponseEntity<List<WorkoutLogDTO>> getWorkoutLogs(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<WorkoutLogResponse>> getWorkoutLogs(@AuthenticationPrincipal User user) {
         log.info("Fetching workout logs for user: {} (id = {})", user.getDisplayName(), user.getId());
         try {
-            List<WorkoutLogDTO> workoutLogs = workoutTrackerService.getWorkoutLogs(user.getId());
+            List<WorkoutLogResponse> workoutLogs = workoutTrackerService.getWorkoutLogs(user.getId());
+            log.info("Fetched {} workout logs.", workoutLogs.size());
             return ResponseEntity.ok(workoutLogs);
         } catch (Exception e) {
             log.error("Error in fetching workout logs for user: {} (id = {}", user.getDisplayName(), user.getId());

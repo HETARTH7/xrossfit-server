@@ -14,6 +14,8 @@ public interface ExerciseLogDAO extends JpaRepository<ExerciseLog, Long> {
             log.id AS logId,
             ex.exercise_name AS exerciseName,
             ex.exercise_type AS exerciseType,
+            log.logged_at AS timestamp,
+            lm.id AS logMetricId,
             m.name AS metricName,
             lm.value AS metricValue,
             m.unit AS metricUnit
