@@ -1,6 +1,7 @@
 package com.hetarth.xrossfit.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,9 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Value("${security.enable}")
+    private boolean enableJwtAuthentication;
+
     public SecurityConfiguration(
             JwtAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationProvider authenticationProvider
@@ -34,11 +38,24 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("🔐 Initializing SecurityFilterChain");
+        log.info("JWT Enabled: {}", enableJwtAuthentication);
+
         http.cors(cors -> {
                     log.info("🟢 Enabling CORS using corsConfigurationSource()");
                     cors.configurationSource(corsConfigurationSource());
-                }).csrf().disable()
-                .authorizeHttpRequests(auth -> auth
+                })
+                .csrf().disable();
+
+        if (!enableJwtAuthentication) {
+            log.warn("⚠️ JWT AUTH DISABLED - ALL ENDPOINTS ARE OPEN");
+            http.authorizeHttpRequests(auth -> auth
+                    .anyRequest().permitAll()
+            );
+            return http.build();
+        }
+
+        // 🔐 Normal secured config
+        http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())

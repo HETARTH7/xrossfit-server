@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    @Value("${security.enable}")
+    private boolean enableJwtAuthentication;
+
     public JwtAuthenticationFilter(
             JwtService jwtService,
             UserDetailsService userDetailsService,
@@ -46,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         log.info("➡ Incoming Request: {}", path);
 
-        if (path.startsWith("/auth")) {
+        if (!enableJwtAuthentication || path.startsWith("/auth")) {
             log.info("🟡 Skipping JWT filter for /auth/**");
             filterChain.doFilter(request, response);
             return;
