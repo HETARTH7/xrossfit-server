@@ -60,6 +60,7 @@ public class WorkoutTrackerController  {
         log.info("Saving log ...");
         try {
             workoutTrackerService.logWorkout(user, request);
+            log.info("Log saved successfully");
             return ResponseEntity.ok("Log saved successfully.");
         } catch (Exception e) {
             log.error("Failed to save exercise log. {}", e.getMessage());

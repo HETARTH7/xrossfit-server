@@ -55,7 +55,9 @@ public class WorkoutTrackerService {
         exerciseLog.setUser(user);
         exerciseLog.setExercise(exercise.get());
         exerciseLog.setLoggedAt(request.getLoggedAt());
+        log.info("Saving the exercise logs...");
         ExerciseLog savedLog = exerciseLogService.logWorkout(exerciseLog);
+        log.info("Saving the exercise log metrics..");
         logMetricService.logExerciseMetrics(request.getMetrics(), savedLog);
     }
 
