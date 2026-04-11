@@ -2,7 +2,6 @@ package com.hetarth.xrossfit.controller;
 
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDTO;
 import com.hetarth.xrossfit.dto.workouttracker.ExerciseDetails;
-import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogDTO;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogRequest;
 import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogResponse;
 import com.hetarth.xrossfit.entity.User;
