@@ -29,7 +29,7 @@ public class WorkoutTrackerController  {
     @Autowired
     private WorkoutTrackerService workoutTrackerService;
 
-    @GetMapping("/exerciseNames")
+    @GetMapping("/exercises")
     public ResponseEntity<List<ExerciseDTO>> getExercises() {
         log.info("Getting all exercise names");
         try {
