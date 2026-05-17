@@ -40,4 +40,32 @@ class UserDAOTest {
         // Assert
         assertThat(exists).isFalse();
     }
+
+    @Test
+    void existsByEmail_shouldReturnTrue_whenEmailExists() {
+        // Arrange
+        User user = new User();
+        user.setFirstName("Jane");
+        user.setLastName("Doe");
+        user.setDisplayName("jane_doe");
+        user.setEmail("jane@test.com");
+        user.setPassword("password123");
+
+        userDAO.save(user);
+
+        // Act
+        boolean exists = userDAO.existsByEmail("jane@test.com");
+
+        // Assert
+        assertThat(exists).isTrue();
+    }
+
+    @Test
+    void existsByEmail_shouldReturnFalse_whenEmailDoesNotExist() {
+        // Act
+        boolean exists = userDAO.existsByEmail("unknown@test.com");
+
+        // Assert
+        assertThat(exists).isFalse();
+    }
 }
