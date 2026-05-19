@@ -4,7 +4,7 @@ import com.hetarth.xrossfit.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -67,5 +67,36 @@ class UserDAOTest {
 
         // Assert
         assertThat(exists).isFalse();
+    }
+
+    @Test
+    void findByEmail_shouldReturnUser_whenEmailExists() {
+        // Arrange
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setDisplayName("john_doe");
+        user.setEmail("john@test.com");
+        user.setPassword("password123");
+
+        User savedUser = userDAO.save(user);
+
+        // Act
+        Optional<User> result = userDAO.findByEmail("john@test.com");
+
+        // Assert
+        assertThat(result).isPresent();
+        assertThat(result.get().getId()).isEqualTo(savedUser.getId());
+        assertThat(result.get().getEmail()).isEqualTo("john@test.com");
+        assertThat(result.get().getDisplayName()).isEqualTo("john_doe");
+    }
+
+    @Test
+    void findByEmail_shouldReturnEmpty_whenEmailDoesNotExist() {
+        // Act
+        Optional<User> result = userDAO.findByEmail("unknown@test.com");
+
+        // Assert
+        assertThat(result).isEmpty();
     }
 }
