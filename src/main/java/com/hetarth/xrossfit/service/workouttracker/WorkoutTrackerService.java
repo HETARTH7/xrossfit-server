@@ -10,6 +10,7 @@ import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogResponse;
 import com.hetarth.xrossfit.entity.Exercise;
 import com.hetarth.xrossfit.entity.ExerciseLog;
 import com.hetarth.xrossfit.entity.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,12 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class WorkoutTrackerService {
-    @Autowired
-    private ExerciseService exerciseService;
-    @Autowired
-    private MetricService metricService;
-    @Autowired
-    private ExerciseLogService exerciseLogService;
-    @Autowired
-    private LogMetricService logMetricService;
+    private final ExerciseService exerciseService;
+    private final MetricService metricService;
+    private final ExerciseLogService exerciseLogService;
+    private final LogMetricService logMetricService;
 
     public ExerciseDetails getExerciseDetails(Long exerciseId) {
         try {

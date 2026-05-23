@@ -7,8 +7,8 @@ import com.hetarth.xrossfit.dto.workouttracker.WorkoutLogResponse;
 import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.workouttracker.ExerciseService;
 import com.hetarth.xrossfit.service.workouttracker.WorkoutTrackerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +23,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/workout-tracker")
+@RequiredArgsConstructor
 public class WorkoutTrackerController  {
-    @Autowired
-    private ExerciseService exerciseService;
-    @Autowired
-    private WorkoutTrackerService workoutTrackerService;
+    private final ExerciseService exerciseService;
+    private final WorkoutTrackerService workoutTrackerService;
 
     @GetMapping("/exercises")
     public ResponseEntity<List<ExerciseDTO>> getExercises() {

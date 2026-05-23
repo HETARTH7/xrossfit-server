@@ -8,8 +8,8 @@ import com.hetarth.xrossfit.entity.User;
 import com.hetarth.xrossfit.service.auth.AuthenticationService;
 import com.hetarth.xrossfit.service.auth.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,13 +26,12 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
     private final static String AUTH_TOKEN = "authToken";
     private final static String REFRESH_TOKEN = "refreshToken";
-    @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
-    private JwtService jwtService;
+    private final AuthenticationService authenticationService;
+    private final JwtService jwtService;
 
     @Value("${security.jwt.expiration-time.refresh-token}")
     private long jwtRefreshTokenExpiration;

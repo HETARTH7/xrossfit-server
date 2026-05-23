@@ -5,15 +5,15 @@ import com.hetarth.xrossfit.dto.workouttracker.MetricValueRequest;
 import com.hetarth.xrossfit.entity.ExerciseLog;
 import com.hetarth.xrossfit.entity.LogMetric;
 import com.hetarth.xrossfit.entity.Metric;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LogMetricService {
-    @Autowired
-    private LogMetricDAO logMetricDAO;
+    private final LogMetricDAO logMetricDAO;
 
     public void logExerciseMetrics(List<MetricValueRequest> logMetricRequest, ExerciseLog savedLog) {
         List<LogMetric> logMetrics = logMetricRequest.stream().map(metricValueRequest -> {
