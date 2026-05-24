@@ -85,5 +85,3 @@ The following tables are included (see `xrossfit.sql` for full details):
 
 [//]: # ()
 [//]: # (---)
-
-![img.png](img.png)
