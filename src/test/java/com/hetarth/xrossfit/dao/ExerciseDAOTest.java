@@ -18,7 +18,6 @@ class ExerciseDAOTest {
     private ExerciseDAO exerciseDAO;
 
     @Test
-    @DisplayName("Should fetch all exercises as ExerciseDTO projections")
     void shouldFetchExercises() {
 
         // Arrange
