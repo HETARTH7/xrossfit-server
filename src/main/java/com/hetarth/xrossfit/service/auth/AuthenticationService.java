@@ -4,9 +4,12 @@ import com.hetarth.xrossfit.dao.UserDAO;
 import com.hetarth.xrossfit.dto.auth.LoginRequest;
 import com.hetarth.xrossfit.dto.auth.SignupRequest;
 import com.hetarth.xrossfit.entity.User;
+import com.hetarth.xrossfit.event.UserRegisteredEvent;
 import com.hetarth.xrossfit.utils.Role;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,13 +17,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AuthenticationService {
-    @Autowired
-    private UserDAO userDAO;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final UserDAO userDAO;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final ApplicationEventPublisher publisher;
 
     public User signup(SignupRequest request){
         log.info("Attempting signup for: {}", request.getDisplayName());
@@ -47,6 +49,7 @@ public class AuthenticationService {
         User savedUser = userDAO.save(user);
         log.info("User created successfully with id={}", savedUser.getId());
 
+        publisher.publishEvent(new UserRegisteredEvent(user.getId(), user.getEmail()));
         return savedUser;
     }
 
