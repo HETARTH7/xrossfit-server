@@ -1,4 +1,13 @@
 package com.hetarth.xrossfit.event;
 
-public record UserRegisteredEvent(Long userId, String email) {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class UserRegisteredEvent {
+    private String username;
+    private String email;
 }

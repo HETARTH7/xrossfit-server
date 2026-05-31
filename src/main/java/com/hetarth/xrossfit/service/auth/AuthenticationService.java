@@ -8,7 +8,6 @@ import com.hetarth.xrossfit.event.UserRegisteredEvent;
 import com.hetarth.xrossfit.utils.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +48,10 @@ public class AuthenticationService {
         User savedUser = userDAO.save(user);
         log.info("User created successfully with id={}", savedUser.getId());
 
-        publisher.publishEvent(new UserRegisteredEvent(user.getId(), user.getEmail()));
+        publisher.publishEvent(UserRegisteredEvent.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .build());
         return savedUser;
     }
 

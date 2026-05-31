@@ -10,6 +10,18 @@ spring:
       diverClassName: org.h2.Driver
       username: root
       password: root
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: your-email@gmail.com
+    password: your-app-password
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 server:
