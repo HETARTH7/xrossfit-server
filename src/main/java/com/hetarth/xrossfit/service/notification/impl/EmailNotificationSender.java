@@ -27,7 +27,7 @@ public class EmailNotificationSender implements NotificationSender {
             message.setTo(notification.getRecipient());
             message.setSubject(notification.getSubject());
             message.setText(notification.getMessage());
-
+            log.info("Notification: {}", message);
 //            mailSender.send(message);
             log.info("Email sent to {}", notification.getRecipient());
         } catch (Exception ex) {

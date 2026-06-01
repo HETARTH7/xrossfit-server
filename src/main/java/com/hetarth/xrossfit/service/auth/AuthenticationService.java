@@ -49,7 +49,7 @@ public class AuthenticationService {
         log.info("User created successfully with id={}", savedUser.getId());
 
         publisher.publishEvent(UserRegisteredEvent.builder()
-                .username(user.getUsername())
+                .username(user.getDisplayName())
                 .email(user.getEmail())
                 .build());
         return savedUser;

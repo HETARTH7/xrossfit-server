@@ -1,5 +1,6 @@
 package com.hetarth.xrossfit.listener;
 
+import com.hetarth.xrossfit.event.WorkoutSummaryEvent;
 import com.hetarth.xrossfit.event.UserRegisteredEvent;
 import com.hetarth.xrossfit.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,12 @@ public class NotificationListener {
 
     @Async
     @EventListener
-    public void handleUserRegistered(UserRegisteredEvent event) {
+    public void sendWelcomeNotification(UserRegisteredEvent event) {
         notificationService.sendWelcomeNotification(event.getUsername(), event.getEmail());
+    }
+
+    @EventListener
+    public void sendDailyWorkoutSummary(WorkoutSummaryEvent summary) {
+        notificationService.sendDailyWorkoutSummary(summary);
     }
 }
