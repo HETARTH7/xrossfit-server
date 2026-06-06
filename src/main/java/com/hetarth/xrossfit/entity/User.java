@@ -46,7 +46,7 @@ public class User implements UserDetails {
     @Size(min = 6)
     private String password;
     @Column(name = "email_verified")
-    private Boolean emailVerified= true;
+    private Boolean emailVerified = true;
     @Column(name = "phone_number")
     private String phoneNumber;
     @Enumerated(EnumType.STRING)

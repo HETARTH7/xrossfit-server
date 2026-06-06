@@ -2,6 +2,7 @@ package com.hetarth.xrossfit.service.user;
 
 import com.hetarth.xrossfit.dao.UserDAO;
 import com.hetarth.xrossfit.dto.notification.UserDTO;
+import com.hetarth.xrossfit.dto.user.PersonalDetailsResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,5 +17,9 @@ public class UserService {
 
     public List<UserDTO> getUserIds() {
         return userDAO.getUserIds();
+    }
+
+    public PersonalDetailsResponse getPersonalDetails(Long userId) {
+        return userDAO.getPersonalDetails(userId);
     }
 }
