@@ -2,9 +2,9 @@ spring:
   application:
     name: xrossfit
   datasource:
-    url: jdbc:mysql://localhost:3306/xrossfit_db
-    username: root
-    password: sw_dev
+    url: jdbc:postgresql://localhost:5432/xrossfit_db
+    username: postgres
+    password: postgres
     test:
       url: jdbc:h2:mem/unit_test_db
       diverClassName: org.h2.Driver
